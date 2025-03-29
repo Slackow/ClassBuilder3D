@@ -1,0 +1,58 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+@font-face {
+  font-family: 'PastaRegular';
+  src: url('/fonts/PastaRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  background: linear-gradient(218deg, rgb(174, 2, 2), rgb(255, 60, 0), orange);
+  background-size: 400% 400%;
+  animation: animate-background 7s infinite ease-in-out;
+}
+
+@keyframes animate-background {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.topnav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  align-self: center;
+  display: flex;
+  width: 100vw;
+  height: 50px;
+  font-family: 'PastaRegular', sans-serif;
+  justify-content: space-evenly; 
+  align-items: center;
+  background-color: #78787800;
+  padding: 0;
+}
+
+.topnav a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+.topnav a:hover {
+  transition: filter 300ms;
+  filter: drop-shadow(0 0 .5em #ffffffbe);
+}
