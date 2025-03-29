@@ -1,3 +1,20 @@
+/* Add a fade-in animation to the container */
+.fade-container {
+  opacity: 0;
+  animation: fadeIn 2s ease-in forwards;
+  animation-delay: .1s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Your existing CSS remains unchanged */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,38 +22,92 @@
   text-align: center;
 }
 
+@font-face {
+  font-family: 'PastaRegular';
+  src: url('/fonts/PastaRegular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.duck-container {
+  position: relative;
+  align-self: center;
+  top: 50px;
+}
+
+h1 {
+  position: relative;
+  top: 80px;
+  font-family: 'PastaRegular', sans-serif;
+  font-weight: bold;
+}
+
+body {
+  background: linear-gradient(218deg, rgb(174, 2, 2), rgb(255, 60, 0), orange);
+  background-size: 400% 400%;
+  animation: animate-background 7s infinite ease-in-out;
+}
+
+@keyframes animate-background {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+.topnav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  align-self: center;
+  display: flex;
+  width: 100vw;
+  height: 50px;
+  font-family: 'PastaRegular', sans-serif;
+  justify-content: space-evenly; 
+  align-items: center;
+  background-color: #78787800;
+  padding: 0;
+}
+
+.topnav a {
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+.topnav a:hover {
+  transition: filter 300ms;
+  filter: drop-shadow(0 0 .5em #ffffffbe);
+}
+
 .logo {
+  position: relative;
+  top: 80px;
   height: 6em;
-  padding: 1.5em;
+  padding: 0em;
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+  filter: drop-shadow(0 0 2em #ffffffaa);
 }
 
 .card {
+  position: relative;
+  top: 40px;
+  font-family: 'PastaRegular', sans-serif;
   padding: 2em;
 }
 
-.read-the-docs {
+.credits {
+  position: relative;
+  font-family: 'PastaRegular', sans-serif;
   color: #888;
 }

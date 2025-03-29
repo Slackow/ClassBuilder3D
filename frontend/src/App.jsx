@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Duck3D from './Duck3D';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+    <div className="fade-container">
+      <div className="topnav">
+        <a className="active" href="home">Home</a>
+        <a href="news">News</a>
+        <a href="contact">Contact</a>
+        <a href="about">About</a>
+      </div>
+      <div className="duck-container">
+        <Duck3D />
+      </div>
+      <h1>Welcome To ClassBuilder3D!</h1>
+      <div className="logo">
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUXbmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXA%3D" target="_blank" rel="noreferrer">
+          <button style={{ backgroundColor: 'black', color: 'white', padding: '10px 40px', border: 'none', borderRadius: '20px', cursor: 'pointer', outline: "2px solid white" }}>Enter</button>
         </a>
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          The Ultimate Class Scheduling Platform.
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <p className="credits">
+        Built By Some People I Guess.
       </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
