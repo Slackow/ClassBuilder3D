@@ -7,7 +7,7 @@ export class SemesterSchedule {
     this.courseSections = []
   }
   addSection(courseSection) {
-    this.courseSections.append(courseSection)
+    this.courseSections.push(courseSection)
   }
   validate() {
     let invalid = new Set();
@@ -15,18 +15,19 @@ export class SemesterSchedule {
       for (let j = i + 1; j < this.courseSections.length; j++) {
         let [days1, times1] = this.courseSections[i].times;
         let [days2, times2] = this.courseSections[j].times;
-        if (days1.any(c => days2.contains(c))) {
+        if (Array(days1).find(c => days2.includes(c))) {
           let [s1, e1] = times1;
           let [s2, e2] = times2;
           if (Math.max(s1, s2) <= Math.min(e1, e2)) {
             invalid.add(this.courseSections[i].courseId);
             invalid.add(this.courseSections[j].courseId);
+            console.log("problem found!");
           }
         }
       }
     }
     console.log("Invalid!: ", invalid)
-    return invalid.size > 0;
+    return invalid.size === 0;
   }
 }
 
