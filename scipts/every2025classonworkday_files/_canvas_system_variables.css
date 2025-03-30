@@ -1,0 +1,264 @@
+/**
+ * Do not edit directly
+ * Generated on Wed, 18 Dec 2024 18:24:06 GMT
+ */
+
+:root {
+  --cnvs-sys-depth-1: 0 0.0625rem 0.25rem 0 rgba(31,38,46,0.12), 0 0.125rem 0.5rem 0 rgba(31,38,46,0.08); /* Standard card depth */
+  --cnvs-sys-depth-2: 0 0.125rem 0.5rem 0 rgba(31,38,46,0.12), 0 0.25rem 1rem 0 rgba(31,38,46,0.08); /* Top navigation, Bottom Navigation */
+  --cnvs-sys-depth-3: 0 0.1875rem 0.75rem 0 rgba(31,38,46,0.12), 0 0.375rem 1.5rem 0 rgba(31,38,46,0.08); /* Floating Action Buttons (FAB), Menus */
+  --cnvs-sys-depth-4: 0 0.25rem 1rem 0 rgba(31,38,46,0.12), 0 0.5rem 2rem 0 rgba(31,38,46,0.08); /* Bottom Sheets */
+  --cnvs-sys-depth-5: 0 0.3125rem 1.25rem 0 rgba(31,38,46,0.12), 0 0.625rem 2.5rem 0 rgba(31,38,46,0.08); /* Banners, Snackbars, Toast Messages, Non modal Dialogs, ; Side Panels (when opacity overlay behaviour is not applied) */
+  --cnvs-sys-depth-6: 0 0.375rem 1.5rem 0 rgba(31,38,46,0.12), 0 0.75rem 3rem 0 rgba(31,38,46,0.08); /* Modal Dialogs, Side Panels (when opacity overlay behaviour; is applied) */
+  --cnvs-sys-space-zero: 0; /* Stacks, rows in tables */
+  --cnvs-sys-shape-zero: 0rem; /* This is the initial shape of every new element. Use this for backgrounds screens and fixed navigation containers such as headers, and side-panels. */
+  --cnvs-sys-opacity-full: 1; /* Dev only */
+  --cnvs-sys-opacity-zero: 0; /* Dev only */
+  --cnvs-sys-breakpoints-zero: 0px; /* Use to set a media query `min-width` below small. */
+  --cnvs-sys-color-bg-critical-stronger: rgba(128,22,14,1); /* Stronger error background */
+  --cnvs-sys-font-weight-bold: var(--cnvs-base-font-weight-700);
+  --cnvs-sys-font-weight-medium: var(--cnvs-base-font-weight-500);
+  --cnvs-sys-font-weight-normal: var(--cnvs-base-font-weight-400);
+  --cnvs-sys-font-weight-light: var(--cnvs-base-font-weight-300);
+  --cnvs-sys-line-height-title-large: var(--cnvs-base-line-height-600);
+  --cnvs-sys-line-height-title-medium: var(--cnvs-base-line-height-500);
+  --cnvs-sys-line-height-title-small: var(--cnvs-base-line-height-400);
+  --cnvs-sys-line-height-heading-large: var(--cnvs-base-line-height-350);
+  --cnvs-sys-line-height-heading-medium: var(--cnvs-base-line-height-300);
+  --cnvs-sys-line-height-heading-small: var(--cnvs-base-line-height-250);
+  --cnvs-sys-line-height-body-large: var(--cnvs-base-line-height-200);
+  --cnvs-sys-line-height-body-medium: var(--cnvs-base-line-height-200);
+  --cnvs-sys-line-height-body-small: var(--cnvs-base-line-height-150);
+  --cnvs-sys-line-height-subtext-large: var(--cnvs-base-line-height-100);
+  --cnvs-sys-line-height-subtext-medium: var(--cnvs-base-line-height-50);
+  --cnvs-sys-line-height-subtext-small: var(--cnvs-base-line-height-50);
+  --cnvs-sys-font-size-subtext-small: var(--cnvs-base-font-size-25);
+  --cnvs-sys-font-family-global: var(--cnvs-base-font-family-200);
+  --cnvs-sys-font-family-mono: var(--cnvs-base-font-family-100);
+  --cnvs-sys-font-family-default: var(--cnvs-base-font-family-50);
+  --cnvs-sys-space-x20: calc(var(--cnvs-base-unit) * 20); /* - Use sparingly; - Helps to put focus on the primary element within your page; - Use to de-clutter your UI when a lot of space is available */
+  --cnvs-sys-space-x16: calc(var(--cnvs-base-unit) * 16); /* - Use to de-clutter your UI when a lot of space is available; - Separate banner sections from page content; - Use to differentiate page content like page sections */
+  --cnvs-sys-space-x10: calc(var(--cnvs-base-unit) * 10); /* • Used for outer margins on the overall page content ; • Used for inner margins on large items such as page sections */
+  --cnvs-sys-space-x8: calc(var(--cnvs-base-unit) * 8); /* • Standard spacing between cards; • Used to separate groups of content ; • Separate section headings or titles from body text or inputs */
+  --cnvs-sys-space-x6: calc(var(--cnvs-base-unit) * 6); /* • Padding around card content; • Related elements where more space between them can be afforded; • Separate section headings or titles from body text or inputs */
+  --cnvs-sys-space-x4: calc(var(--cnvs-base-unit) * 4); /* Default space token. Used to group Inputs with related data */
+  --cnvs-sys-space-x3: calc(var(--cnvs-base-unit) * 3); /* Use when compact padding is required */
+  --cnvs-sys-space-x2: calc(var(--cnvs-base-unit) * 2); /* Commonly used to group compact elements like icon buttons */
+  --cnvs-sys-space-x1: var(--cnvs-base-unit); /* Compact spacing between text or icons */
+  --cnvs-sys-shape-round: calc(var(--cnvs-base-unit) * 250); /* Commonly used for our standard buttons and profile avatars: All Primary, Secondary Buttons, Radio Buttons and Notification Badges. */
+  --cnvs-sys-shape-x2: calc(var(--cnvs-base-unit) * 2); /* Use this for all the containers and popups: All Cards, Modals, Tooltips and Toasts. */
+  --cnvs-sys-shape-x1: var(--cnvs-base-unit); /* Use this for form components presenting text information or inputs: Text Inputs and Text Area, Dropdowns, Menus and Banners. */
+  --cnvs-sys-shape-half: calc(var(--cnvs-base-unit) * 0.5); /* Use this for subtle and small components that don’t require to group complex information like Status Indicators, Checkboxes and Color Swatches. */
+  --cnvs-sys-opacity-shadow-second: var(--cnvs-base-opacity-100); /* Alpha on second shadow */
+  --cnvs-sys-opacity-shadow-first: var(--cnvs-base-opacity-200); /* Alpha on first shadow */
+  --cnvs-sys-opacity-contrast: var(--cnvs-base-opacity-500); /* Tooltips, Status Indicator */
+  --cnvs-sys-opacity-overlay: var(--cnvs-base-opacity-400); /* Overlay */
+  --cnvs-sys-opacity-disabled: var(--cnvs-base-opacity-300); /* Disabled states */
+  --cnvs-sys-breakpoints-xl: 1440px; /* Used for extra large screens, such as wide monitors and TVs. */
+  --cnvs-sys-breakpoints-l: 1024px; /* Large screens, such as desktops. */
+  --cnvs-sys-breakpoints-m: 768px; /* Medium screens, such as laptops. */
+  --cnvs-sys-breakpoints-s: 320px; /* The `min-width` for mobile devices, such as phones and tablets. */
+  --cnvs-sys-color-static-black: var(--cnvs-base-palette-black-pepper-600); /* Just black */
+  --cnvs-sys-color-static-white: var(--cnvs-base-palette-french-vanilla-100); /* Just white */
+  --cnvs-sys-color-static-gray-stronger: var(--cnvs-base-palette-licorice-500); /* Strongerer gray */
+  --cnvs-sys-color-static-gray-strong: var(--cnvs-base-palette-licorice-400); /* Stronger gray */
+  --cnvs-sys-color-static-gray-soft: var(--cnvs-base-palette-soap-300); /* Light gray */
+  --cnvs-sys-color-static-gray-default: var(--cnvs-base-palette-licorice-300); /* Gray */
+  --cnvs-sys-color-static-orange-strong: var(--cnvs-base-palette-cantaloupe-600); /* Stronger orange */
+  --cnvs-sys-color-static-orange-soft: var(--cnvs-base-palette-cantaloupe-100); /* Soft orange */
+  --cnvs-sys-color-static-orange-default: var(--cnvs-base-palette-cantaloupe-400); /* Orange */
+  --cnvs-sys-color-static-red-strong: var(--cnvs-base-palette-cinnamon-600); /* Strong red */
+  --cnvs-sys-color-static-red-soft: var(--cnvs-base-palette-cinnamon-100); /* Light red */
+  --cnvs-sys-color-static-red-default: var(--cnvs-base-palette-cinnamon-500); /* Red */
+  --cnvs-sys-color-static-green-strong: var(--cnvs-base-palette-green-apple-600); /* Stronger green */
+  --cnvs-sys-color-static-green-soft: var(--cnvs-base-palette-green-apple-100); /* Light green */
+  --cnvs-sys-color-static-green-default: var(--cnvs-base-palette-green-apple-400); /* Default green */
+  --cnvs-sys-color-static-gold-stronger: var(--cnvs-base-palette-toasted-marshmallow-600); /* Foregrounds in low emphasis status indicators */
+  --cnvs-sys-color-static-blue-strong: var(--cnvs-base-palette-blueberry-500); /* Stronger blue */
+  --cnvs-sys-color-static-blue-soft: var(--cnvs-base-palette-blueberry-100); /* Light blue */
+  --cnvs-sys-color-static-blue-default: var(--cnvs-base-palette-blueberry-400); /* Blue */
+  --cnvs-sys-color-shadow-default: var(--cnvs-base-palette-licorice-600); /* Main shadow color */
+  --cnvs-sys-color-shadow-2: rgba(31,38,46,var(--cnvs-base-opacity-100)); /* Second shadow color */
+  --cnvs-sys-color-border-container: var(--cnvs-base-palette-soap-500); /* Cards, Toasts */
+  --cnvs-sys-color-border-divider: var(--cnvs-base-palette-soap-400); /* Dividers */
+  --cnvs-sys-color-border-inverse: var(--cnvs-base-palette-french-vanilla-100); /* Inverse */
+  --cnvs-sys-color-border-caution-strong: var(--cnvs-base-palette-cantaloupe-600); /* Warning outer (box shadow) */
+  --cnvs-sys-color-border-caution-default: var(--cnvs-base-palette-cantaloupe-400); /* Warning inner */
+  --cnvs-sys-color-border-critical-default: var(--cnvs-base-palette-cinnamon-500); /* Error */
+  --cnvs-sys-color-border-primary-default: var(--cnvs-base-palette-blueberry-400); /* Brand, Focus */
+  --cnvs-sys-color-border-contrast-strong: var(--cnvs-base-palette-black-pepper-500); /* Secondary Button Hover */
+  --cnvs-sys-color-border-contrast-default: var(--cnvs-base-palette-black-pepper-400); /* Secondary Button */
+  --cnvs-sys-color-border-input-inverse: var(--cnvs-base-palette-soap-300); /* Borders on checkboxes and radios */
+  --cnvs-sys-color-border-input-strong: var(--cnvs-base-palette-licorice-500); /* Input hover */
+  --cnvs-sys-color-border-input-default: var(--cnvs-base-palette-licorice-200); /* Inputs */
+  --cnvs-sys-color-border-input-disabled: var(--cnvs-base-palette-licorice-100); /* Disabled inputs */
+  --cnvs-sys-color-fg-contrast-strong: var(--cnvs-base-palette-black-pepper-500); /* Strong contrast */
+  --cnvs-sys-color-fg-contrast-default: var(--cnvs-base-palette-black-pepper-400); /* Contrast */
+  --cnvs-sys-color-fg-caution-strong: var(--cnvs-base-palette-black-pepper-500); /* Warning on hover */
+  --cnvs-sys-color-fg-caution-default: var(--cnvs-base-palette-black-pepper-400); /* Warning */
+  --cnvs-sys-color-fg-primary-strong: var(--cnvs-base-palette-blueberry-500); /* Hover interactive foregrounds */
+  --cnvs-sys-color-fg-primary-default: var(--cnvs-base-palette-blueberry-400); /* Interactive foreground elements */
+  --cnvs-sys-color-fg-muted-stronger: var(--cnvs-base-palette-licorice-500);
+  --cnvs-sys-color-fg-muted-strong: var(--cnvs-base-palette-licorice-400);
+  --cnvs-sys-color-fg-muted-default: var(--cnvs-base-palette-licorice-300); /* Hint text */
+  --cnvs-sys-color-fg-muted-soft: var(--cnvs-base-palette-licorice-200); /* Tab item text */
+  --cnvs-sys-color-fg-critical-default: var(--cnvs-base-palette-cinnamon-500); /* Error */
+  --cnvs-sys-color-fg-inverse: var(--cnvs-base-palette-french-vanilla-100); /* Inverse */
+  --cnvs-sys-color-fg-disabled: var(--cnvs-base-palette-licorice-100); /* Disabled */
+  --cnvs-sys-color-fg-stronger: var(--cnvs-base-palette-black-pepper-500); /* Heading on hover */
+  --cnvs-sys-color-fg-strong: var(--cnvs-base-palette-black-pepper-400); /* Headings */
+  --cnvs-sys-color-fg-default: var(--cnvs-base-palette-black-pepper-300); /* Body */
+  --cnvs-sys-color-icon-caution-strong: var(--cnvs-base-palette-black-pepper-500); /* Strong caution icon color */
+  --cnvs-sys-color-icon-caution-default: var(--cnvs-base-palette-black-pepper-400); /* Caution icon color */
+  --cnvs-sys-color-icon-critical-default: var(--cnvs-base-palette-cinnamon-500); /* Error icon color */
+  --cnvs-sys-color-icon-positive-default: var(--cnvs-base-palette-green-apple-500); /* Success icon color */
+  --cnvs-sys-color-icon-primary-strong: var(--cnvs-base-palette-blueberry-500); /* Stronger brand icon color */
+  --cnvs-sys-color-icon-primary-default: var(--cnvs-base-palette-blueberry-400); /* Brand icon color */
+  --cnvs-sys-color-icon-inverse: var(--cnvs-base-palette-french-vanilla-100); /* Inverse icon color */
+  --cnvs-sys-color-icon-strong: var(--cnvs-base-palette-licorice-500); /* Hover icon color */
+  --cnvs-sys-color-icon-soft: var(--cnvs-base-palette-licorice-100); /* Disabled icon color */
+  --cnvs-sys-color-icon-default: var(--cnvs-base-palette-licorice-200); /* Default icon color */
+  --cnvs-sys-color-text-primary-stronger: var(--cnvs-base-palette-blueberry-600); /* Active links */
+  --cnvs-sys-color-text-primary-strong: var(--cnvs-base-palette-blueberry-500); /* Branded hover text */
+  --cnvs-sys-color-text-primary-default: var(--cnvs-base-palette-blueberry-400); /* Branded text */
+  --cnvs-sys-color-text-critical-default: var(--cnvs-base-palette-cinnamon-500); /* Error text */
+  --cnvs-sys-color-text-inverse: var(--cnvs-base-palette-french-vanilla-100); /* Inverse text color */
+  --cnvs-sys-color-text-stronger: var(--cnvs-base-palette-black-pepper-500); /* Heading hover text color */
+  --cnvs-sys-color-text-strong: var(--cnvs-base-palette-black-pepper-400); /* Heading text color */
+  --cnvs-sys-color-text-hint: var(--cnvs-base-palette-licorice-300); /* Hint text color */
+  --cnvs-sys-color-text-disabled: var(--cnvs-base-palette-licorice-100); /* Disabled text color */
+  --cnvs-sys-color-text-default: var(--cnvs-base-palette-black-pepper-300); /* Default text color */
+  --cnvs-sys-color-bg-critical-strong: var(--cnvs-base-palette-cinnamon-600); /* Strong error background */
+  --cnvs-sys-color-bg-critical-softer: var(--cnvs-base-palette-cinnamon-100); /* Disabled error background */
+  --cnvs-sys-color-bg-critical-default: var(--cnvs-base-palette-cinnamon-500); /* Default error background */
+  --cnvs-sys-color-bg-caution-stronger: var(--cnvs-base-palette-cantaloupe-600); /* Stronger warning background */
+  --cnvs-sys-color-bg-caution-strong: var(--cnvs-base-palette-cantaloupe-500); /* Strong warning background */
+  --cnvs-sys-color-bg-caution-softer: var(--cnvs-base-palette-cantaloupe-100); /* Disabled warning background */
+  --cnvs-sys-color-bg-caution-default: var(--cnvs-base-palette-cantaloupe-400); /* Default warning background */
+  --cnvs-sys-color-bg-positive-stronger: var(--cnvs-base-palette-green-apple-600); /* Active success background */
+  --cnvs-sys-color-bg-positive-strong: var(--cnvs-base-palette-green-apple-500); /* Hover success background */
+  --cnvs-sys-color-bg-positive-softer: var(--cnvs-base-palette-green-apple-100); /* Softer success background */
+  --cnvs-sys-color-bg-positive-default: var(--cnvs-base-palette-green-apple-400); /* Disabled success background */
+  --cnvs-sys-color-bg-primary-stronger: var(--cnvs-base-palette-blueberry-600); /* Brand active background */
+  --cnvs-sys-color-bg-primary-strong: var(--cnvs-base-palette-blueberry-500); /* Brand hover background */
+  --cnvs-sys-color-bg-primary-soft: var(--cnvs-base-palette-blueberry-200); /* Brand selected background */
+  --cnvs-sys-color-bg-primary-default: var(--cnvs-base-palette-blueberry-400); /* Primary brand color */
+  --cnvs-sys-color-bg-contrast-strong: var(--cnvs-base-palette-black-pepper-500); /* Contrast backgrounds, like Secondary Buttons */
+  --cnvs-sys-color-bg-contrast-default: var(--cnvs-base-palette-black-pepper-400); /* Contrast backgrounds, like Secondary Buttons */
+  --cnvs-sys-color-bg-muted-strong: var(--cnvs-base-palette-licorice-500);
+  --cnvs-sys-color-bg-muted-default: var(--cnvs-base-palette-licorice-300);
+  --cnvs-sys-color-bg-muted-soft: var(--cnvs-base-palette-licorice-200);
+  --cnvs-sys-color-bg-muted-softer: var(--cnvs-base-palette-licorice-100);
+  --cnvs-sys-color-bg-alt-stronger: var(--cnvs-base-palette-soap-500); /* Active states */
+  --cnvs-sys-color-bg-alt-strong: var(--cnvs-base-palette-soap-400); /* Active states */
+  --cnvs-sys-color-bg-alt-softer: var(--cnvs-base-palette-soap-100); /* Disabled inputs and column headers */
+  --cnvs-sys-color-bg-alt-soft: var(--cnvs-base-palette-soap-200); /* Page background */
+  --cnvs-sys-color-bg-alt-default: var(--cnvs-base-palette-soap-300); /* Hover states */
+  --cnvs-sys-color-bg-translucent: rgba(0,0,0,var(--cnvs-base-opacity-500)); /* Tooltip, Status Indicator */
+  --cnvs-sys-color-bg-transparent: transparent; /* Transparent background */
+  --cnvs-sys-color-bg-default: var(--cnvs-base-palette-french-vanilla-100); /* Main background color;  */
+  --cnvs-sys-font-size-subtext-medium: var(--cnvs-base-font-size-50);
+  --cnvs-sys-color-shadow-1: rgba(31,38,46,var(--cnvs-base-opacity-200)); /* First shadow color */
+  --cnvs-sys-color-border-transparent: transparent; /* Transparent */
+  --cnvs-sys-color-text-caution-strong: var(--cnvs-sys-color-text-stronger); /* Strong warning text */
+  --cnvs-sys-color-text-caution-default: var(--cnvs-sys-color-text-strong); /* Warning text */
+  --cnvs-sys-color-bg-overlay: rgba(0,0,0,var(--cnvs-base-opacity-400)); /* Overlay background */
+  --cnvs-sys-font-size-subtext-large: var(--cnvs-base-font-size-75);
+  --cnvs-sys-font-size-body-small: var(--cnvs-base-font-size-100);
+  --cnvs-sys-font-size-body-medium: var(--cnvs-base-font-size-125);
+  --cnvs-sys-font-size-body-large: var(--cnvs-base-font-size-150);
+  --cnvs-sys-font-size-heading-small: var(--cnvs-base-font-size-200);
+  --cnvs-sys-font-size-heading-medium: var(--cnvs-base-font-size-250);
+  --cnvs-sys-font-size-heading-large: var(--cnvs-base-font-size-300);
+  --cnvs-sys-font-size-title-small: var(--cnvs-base-font-size-400);
+  --cnvs-sys-font-size-title-medium: var(--cnvs-base-font-size-500);
+  --cnvs-sys-font-size-title-large: var(--cnvs-base-font-size-600);
+}
+
+.cnvs-sys-type-subtext-small {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-subtext-small);
+  font-size: var(--cnvs-sys-font-size-subtext-small);
+  letter-spacing: var(--cnvs-base-letter-spacing-50);
+}
+
+.cnvs-sys-type-subtext-medium {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-subtext-medium);
+  font-size: var(--cnvs-sys-font-size-subtext-medium);
+  letter-spacing: var(--cnvs-base-letter-spacing-100);
+}
+
+.cnvs-sys-type-subtext-large {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-subtext-large);
+  font-size: var(--cnvs-sys-font-size-subtext-large);
+  letter-spacing: var(--cnvs-base-letter-spacing-150);
+}
+
+.cnvs-sys-type-body-small {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-body-small);
+  font-size: var(--cnvs-sys-font-size-body-small);
+  letter-spacing: var(--cnvs-base-letter-spacing-200);
+}
+
+.cnvs-sys-type-body-medium {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-body-medium);
+  font-size: var(--cnvs-sys-font-size-body-medium);
+}
+
+.cnvs-sys-type-body-large {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-normal);
+  line-height: var(--cnvs-sys-line-height-body-large);
+  font-size: var(--cnvs-sys-font-size-body-large);
+}
+
+.cnvs-sys-type-heading-small {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-heading-small);
+  font-size: var(--cnvs-sys-font-size-heading-small);
+}
+
+.cnvs-sys-type-heading-medium {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-heading-medium);
+  font-size: var(--cnvs-sys-font-size-heading-medium);
+}
+
+.cnvs-sys-type-heading-large {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-heading-large);
+  font-size: var(--cnvs-sys-font-size-heading-large);
+}
+
+.cnvs-sys-type-title-small {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-title-small);
+  font-size: var(--cnvs-sys-font-size-title-small);
+}
+
+.cnvs-sys-type-title-medium {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-title-medium);
+  font-size: var(--cnvs-sys-font-size-title-medium);
+}
+
+.cnvs-sys-type-title-large {
+  font-family: var(--cnvs-sys-font-family-default);
+  font-weight: var(--cnvs-sys-font-weight-bold);
+  line-height: var(--cnvs-sys-line-height-title-large);
+  font-size: var(--cnvs-sys-font-size-title-large);
+}
