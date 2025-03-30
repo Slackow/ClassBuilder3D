@@ -1,0 +1,45 @@
+/* src/Chat.css */
+
+.chat-fullscreen-container {
+  /* Positioning & Sizing */
+  position: fixed; /* Position relative to the viewport, ignore document flow */
+  top: 0;          /* Align to the very top edge */
+  left: 0;         /* Align to the very left edge */
+  width: 100vw;    /* Take full viewport width */
+  height: 100vh;   /* Take full viewport height */
+
+  /* Stacking Order */
+  /* Make sure this z-index is higher than your .topnav's z-index */
+  /* If .topnav has no z-index or is lower than 100, this will work */
+  z-index: 100; 
+
+  /* Appearance */
+  background-color: #242424; /* Example background - change as needed */
+  color: white;             /* Example text color */
+
+  /* Content Handling */
+  padding: 20px;              /* Add padding for content inside */
+  box-sizing: border-box;     /* Include padding within the width/height */
+  overflow-y: auto;           /* Allow scrolling if content exceeds screen height */
+
+  /* Optional: Apply a fade-in specifically for the chat */
+  opacity: 0;
+  animation: chatContainerFadeIn 0.6s ease-out forwards;
+}
+
+@keyframes chatContainerFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Style content within the chat container */
+.chat-fullscreen-container h1 {
+  margin-top: 0; /* Remove default top margin */
+  /* Add other styles for your chat title */
+}
+
+/* Add styles for your chat messages, input fields, etc. below */
+/* Example: */
+/* .chat-messages { ... } */
+/* .chat-input { ... } */

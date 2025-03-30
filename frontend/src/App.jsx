@@ -1,6 +1,8 @@
+import React from 'react'; // Good practice to import React
 import Duck3D from './Duck3D';
 import Contacts from './Contacts';
 import About from './About';
+import Chat from './Chat'; // <-- 1. Import Chat component
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cursor from './cursor';
 import './App.css';
@@ -9,7 +11,8 @@ import './App.css';
 function Navigation() {
   return (
     <div className="topnav">
-      <Link className="active" to="/">Home</Link>
+      {/* Use NavLink later if you need active styling based on route */}
+      <Link to="/">Home</Link> 
       <Link to="/news">Ducks</Link>
       <Link to="/contact">Contact</Link>
       <Link to="/about">About</Link>
@@ -17,20 +20,18 @@ function Navigation() {
   );
 }
 
-// Home component with your original App.jsx content
+// Home component with updated Enter button
 function Home() {
   return (
     <div className="fade-container">
       <div className="duck-container">
         <Duck3D />
+        {/* If you still want the quack sound, add the hitbox button back here */}
       </div>
       <h1>Welcome To ClassBuilder3D!</h1>
       <div className="logo">
-        <a
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&pp=ygUXbmV2ZXIgZ29ubmEgZ2l2ZSB5b3UgdXA%3D"
-          target="_blank"
-          rel="noreferrer"
-        >
+        {/* 3. Replace <a> with <Link> pointing to the chat route */}
+        <Link to="/chat"> 
           <button
             style={{
               backgroundColor: 'black',
@@ -40,11 +41,12 @@ function Home() {
               borderRadius: '20px',
               cursor: 'pointer',
               outline: '2px solid white'
+              // Add other necessary styles if Link changes layout/appearance
             }}
           >
             Enter
           </button>
-        </a>
+        </Link>
       </div>
       <div className="card">
         <p>The Ultimate Class Scheduling Platform.</p>
@@ -59,13 +61,16 @@ function App() {
   return (
     <Router>
       <div>
-      <Cursor />
+        <Cursor />
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contacts />} />
           <Route path="/about" element={<About />} />
-          {/* You can add additional routes for news, about, etc. */}
+          {/* 2. Add the Route for the Chat component */}
+          <Route path="/chat" element={<Chat />} /> 
+          {/* You might want a route for /news too */}
+          {/* <Route path="/news" element={<SomeDucksComponent />} /> */}
         </Routes>
       </div>
     </Router>
