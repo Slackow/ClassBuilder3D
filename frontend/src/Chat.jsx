@@ -8,25 +8,7 @@ import './Chat.css';
 // --- ADD OR REMOVE MAJORS HERE ---
 const majorsList = [
   "Computer Science",
-  "Quantitative Finance",
-  "Cybersecurity",
-  "Software Engineering",
-  "Information Systems",
-  "Physics",
-  "Chemical Biology",
-  "Computational Science",
-  "Pure & Applied Mathematics",
-  "Business & Technology",
-  "Engineering Management",
-  "Financial Engineering",
-  "Mechanical Engineering",
-  "Civil Engineering",
-  "Environmental Engineering",
-  "Chemical Engineering",
-  "Electrical Engineering",
-  "Computer Engineering",
-  "Biomedical Engineering",
-  "Naval Engineering",
+  "Cybersecurity"
   // Add more Stevens majors as needed
 ];
 // --- END MAJORS LIST ---
