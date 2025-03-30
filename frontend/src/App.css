@@ -1,20 +1,23 @@
-/* Add a fade-in animation to the container */
+/* Enhance the fade-in animation for the container */
 .fade-container {
   opacity: 0;
-  animation: fadeIn 2s ease-in forwards;
-  animation-delay: .1s;
+  transform: translateY(20px);
+  animation: enhancedFadeIn 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: 0.1s;
 }
 
-@keyframes fadeIn {
+@keyframes enhancedFadeIn {
   from {
     opacity: 0;
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Your existing CSS remains unchanged */
+/* Keep your existing CSS unchanged */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -29,17 +32,46 @@
   font-style: normal;
 }
 
+/* Add animation for duck container */
 .duck-container {
   position: relative;
   align-self: center;
   top: 50px;
+  animation: duckFloat 4s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
+@keyframes duckFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Add animation for heading */
 h1 {
   position: relative;
   top: 80px;
   font-family: 'PastaRegular', sans-serif;
   font-weight: bold;
+  animation: headingReveal 1.2s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+@keyframes headingReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 
 body {
@@ -60,6 +92,7 @@ body {
   }
 }
 
+/* Navigation bar animation */
 .topnav {
   position: fixed;
   top: 0px;
@@ -75,11 +108,64 @@ body {
   padding: 0;
 }
 
+/* Navigation links animations - staggered for each link */
 .topnav a {
   color: white;
   text-decoration: none;
   font-size: 20px;
   padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.topnav a:nth-child(1) {
+  animation: navLinkReveal 0.5s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+.topnav a:nth-child(2) {
+  animation: navLinkReveal 0.5s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+.topnav a:nth-child(3) {
+  animation: navLinkReveal 0.5s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+.topnav a:nth-child(4) {
+  animation: navLinkReveal 0.5s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes navLinkReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced hover effect for nav links */
+.topnav a::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: white;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.topnav a:hover::after {
+  width: 80%;
+  left: 10%;
 }
 
 .topnav a:hover {
@@ -87,6 +173,7 @@ body {
   filter: drop-shadow(0 0 .5em #ffffffbe);
 }
 
+/* Add animation for logo/button */
 .logo {
   position: relative;
   top: 80px;
@@ -94,20 +181,82 @@ body {
   padding: 0em;
   will-change: filter;
   transition: filter 300ms;
+  animation: logoReveal 1s ease-out forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
 }
+
+@keyframes logoReveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #ffffffaa);
 }
 
+/* Add button pulse animation */
+.logo button {
+  animation: buttonPulse 2s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Add animation for card */
 .card {
   position: relative;
   top: 40px;
   font-family: 'PastaRegular', sans-serif;
   padding: 2em;
+  animation: cardReveal 1s ease-out forwards;
+  animation-delay: 1s;
+  opacity: 0;
 }
 
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add animation for credits */
 .credits {
   position: relative;
   font-family: 'PastaRegular', sans-serif;
   color: #888;
+  animation: creditsReveal 1s ease-out forwards;
+  animation-delay: 1.2s;
+  opacity: 0;
+}
+
+@keyframes creditsReveal {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
