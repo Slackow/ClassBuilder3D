@@ -1,8 +1,8 @@
 // src/Chat.jsx
 
 import React, { useState, useMemo, useCallback } from 'react';
-import Duck3DChat from './Duck3Dchat'; 
-import './Chat.css'; 
+import Duck3DChat from './Duck3Dchat';
+import './Chat.css';
 
 // --- Define Majors List ---
 const majorsList = [
@@ -25,108 +25,119 @@ const coursesByMajor = {
 function Chat() {
   // State for Major Menu
   const [isMajorMenuOpen, setIsMajorMenuOpen] = useState(false);
-  const [selectedMajor, setSelectedMajor] = useState(""); 
+  const [selectedMajor, setSelectedMajor] = useState("");
 
   // State for Tag Input 1 (Courses Taken)
-  const [takenInputValue, setTakenInputValue] = useState(""); 
-  const [takenTags, setTakenTags] = useState([]); 
+  const [takenInputValue, setTakenInputValue] = useState("");
+  const [takenTags, setTakenTags] = useState([]);
   const [isTakenSuggestionsOpen, setIsTakenSuggestionsOpen] = useState(false);
 
   // State for Tag Input 2 (Courses Desired)
-  const [desiredInputValue, setDesiredInputValue] = useState(""); 
-  const [desiredTags, setDesiredTags] = useState([]); 
+  const [desiredInputValue, setDesiredInputValue] = useState("");
+  const [desiredTags, setDesiredTags] = useState([]);
   const [isDesiredSuggestionsOpen, setIsDesiredSuggestionsOpen] = useState(false);
-  
+
   // --- State for Chat Menu ---
   const [isChatMenuOpen, setIsChatMenuOpen] = useState(false);
 
   // --- Menu Logic ---
   const toggleMajorMenu = () => {
-    setIsMajorMenuOpen(!isMajorMenuOpen);
-    if (!isMajorMenuOpen) setIsChatMenuOpen(false); // Close chat menu if opening major menu
+    const opening = !isMajorMenuOpen;
+    setIsMajorMenuOpen(opening);
+    if (opening) setIsChatMenuOpen(false); // Close chat menu if opening major menu
   };
 
   const toggleChatMenu = () => {
-    setIsChatMenuOpen(!isChatMenuOpen);
-     if (!isChatMenuOpen) setIsMajorMenuOpen(false); // Close major menu if opening chat menu
+    const opening = !isChatMenuOpen;
+    setIsChatMenuOpen(opening);
+     if (opening) setIsMajorMenuOpen(false); // Close major menu if opening chat menu
+  };
+
+  // --- NEW: Backdrop Click Handler ---
+  const handleBackdropClick = () => {
+    if (isMajorMenuOpen) {
+      toggleMajorMenu(); // Close major menu
+    } else if (isChatMenuOpen) {
+      toggleChatMenu(); // Close chat menu
+    }
   };
 
   const handleMajorChange = (event) => {
     const newMajor = event.target.value;
     setSelectedMajor(newMajor);
-    setTakenTags([]); 
+    setTakenTags([]);
     setDesiredTags([]);
-    setTakenInputValue(""); 
+    setTakenInputValue("");
     setDesiredInputValue("");
     setIsTakenSuggestionsOpen(false);
     setIsDesiredSuggestionsOpen(false);
-    // Close major menu after selection
-    // setIsMajorMenuOpen(false); 
+    // Keep major menu open after selection for now
+    // setIsMajorMenuOpen(false);
   };
 
-  // --- Tag Input Logic (Keep as before) ---
+  // --- Tag Input Logic (Unchanged) ---
   const availableCourses = useMemo(() => coursesByMajor[selectedMajor] || [], [selectedMajor]);
 
-  const filteredTakenSuggestions = useMemo(() => { /* ... keep logic ... */
+  const filteredTakenSuggestions = useMemo(() => {
     if (!takenInputValue) return [];
     const lowerCaseInput = takenInputValue.toLowerCase();
     return availableCourses.filter(course => course.toLowerCase().includes(lowerCaseInput) && !takenTags.includes(course) && !desiredTags.includes(course));
   }, [takenInputValue, availableCourses, takenTags, desiredTags]);
 
-  const handleTakenInputChange = (event) => { /* ... keep logic ... */
+  const handleTakenInputChange = (event) => {
     const value = event.target.value;
     setTakenInputValue(value);
     const suggestions = availableCourses.filter(course => value && course.toLowerCase().includes(value.toLowerCase()) && !takenTags.includes(course) && !desiredTags.includes(course));
     setIsTakenSuggestionsOpen(value.length > 0 && suggestions.length > 0);
   };
 
-  const handleSelectTakenTag = useCallback((tag) => { /* ... keep logic ... */
+  const handleSelectTakenTag = useCallback((tag) => {
     if (!takenTags.includes(tag)) setTakenTags(prevTags => [...prevTags, tag]);
     setTakenInputValue(""); setIsTakenSuggestionsOpen(false);
-  }, [takenTags]); 
+  }, [takenTags, desiredTags]); // Added desiredTags dependency
 
-  const handleRemoveTakenTag = useCallback((tagToRemove) => { /* ... keep logic ... */
+  const handleRemoveTakenTag = useCallback((tagToRemove) => {
     setTakenTags(prevTags => prevTags.filter(tag => tag !== tagToRemove));
-  }, []); 
+  }, []);
 
-  const handleTakenKeyDown = (event) => { /* ... keep logic ... */
+  const handleTakenKeyDown = (event) => {
     if (event.key === 'Enter' && takenInputValue && filteredTakenSuggestions.length > 0) { handleSelectTakenTag(filteredTakenSuggestions[0]); event.preventDefault(); }
     else if (event.key === 'Backspace' && !takenInputValue && takenTags.length > 0) { handleRemoveTakenTag(takenTags[takenTags.length - 1]); }
   };
 
-  const filteredDesiredSuggestions = useMemo(() => { /* ... keep logic ... */
+  const filteredDesiredSuggestions = useMemo(() => {
     if (!desiredInputValue) return [];
     const lowerCaseInput = desiredInputValue.toLowerCase();
     return availableCourses.filter(course => course.toLowerCase().includes(lowerCaseInput) && !desiredTags.includes(course) && !takenTags.includes(course));
-  }, [desiredInputValue, availableCourses, desiredTags, takenTags]); 
+  }, [desiredInputValue, availableCourses, desiredTags, takenTags]);
 
-  const handleDesiredInputChange = (event) => { /* ... keep logic ... */
+  const handleDesiredInputChange = (event) => {
     const value = event.target.value;
     setDesiredInputValue(value);
     const suggestions = availableCourses.filter(course => value && course.toLowerCase().includes(value.toLowerCase()) && !desiredTags.includes(course) && !takenTags.includes(course));
     setIsDesiredSuggestionsOpen(value.length > 0 && suggestions.length > 0);
   };
 
-  const handleSelectDesiredTag = useCallback((tag) => { /* ... keep logic ... */
+  const handleSelectDesiredTag = useCallback((tag) => {
     if (!desiredTags.includes(tag)) setDesiredTags(prevTags => [...prevTags, tag]);
     setDesiredInputValue(""); setIsDesiredSuggestionsOpen(false);
-  }, [desiredTags]); 
+  }, [desiredTags, takenTags]); // Added takenTags dependency
 
-  const handleRemoveDesiredTag = useCallback((tagToRemove) => { /* ... keep logic ... */
+  const handleRemoveDesiredTag = useCallback((tagToRemove) => {
     setDesiredTags(prevTags => prevTags.filter(tag => tag !== tagToRemove));
-  }, []); 
+  }, []);
 
-  const handleDesiredKeyDown = (event) => { /* ... keep logic ... */
-    if (event.key === 'Enter' && desiredInputValue && filteredDesiredSuggestions.length > 0) { handleSelectDesiredTag(filteredDesiredSuggestions[0]); event.preventDefault(); } 
+  const handleDesiredKeyDown = (event) => {
+    if (event.key === 'Enter' && desiredInputValue && filteredDesiredSuggestions.length > 0) { handleSelectDesiredTag(filteredDesiredSuggestions[0]); event.preventDefault(); }
     else if (event.key === 'Backspace' && !desiredInputValue && desiredTags.length > 0) { handleRemoveDesiredTag(desiredTags[desiredTags.length - 1]); }
   };
 
 
   return (
     // Apply blur if either menu is open
-    <div className={`chat-page-wrapper ${isMajorMenuOpen || isChatMenuOpen ? 'menu-is-open' : ''}`}> 
+    <div className={`chat-page-wrapper ${isMajorMenuOpen || isChatMenuOpen ? 'menu-is-open' : ''}`}>
       {/* Main container */}
-      <div className="chat-fullscreen-container"> 
+      <div className="chat-fullscreen-container">
         <div className="chat-left-panel">
           <h1>Scheduler Area</h1>
         </div>
@@ -155,11 +166,11 @@ function Chat() {
                 </div>
               </div>
             )}
-          </div> 
+          </div>
           {/* Courses Desired Input Section */}
-          <div className="tag-input-section section-spacer"> 
+          <div className="tag-input-section section-spacer">
             <h3>Courses Desired</h3>
-             {!selectedMajor && (<div/>)}
+             {!selectedMajor && (<div/>)} {/* Empty div to maintain structure maybe? Consider removing if not needed */}
             {selectedMajor && (
               <div className="tag-input-container">
                 <div className="selected-tags-area">
@@ -180,27 +191,27 @@ function Chat() {
                 </div>
               </div>
             )}
-          </div> 
-        </div> 
-      </div> 
+          </div>
+        </div>
+      </div>
 
       {/* --- Menu & Overlay Components --- */}
       <button className="select-major-button" onClick={toggleMajorMenu}>
         Select Major
       </button>
-      
+
       {/* Backdrop - show if *either* menu is open */}
-      <div 
+      <div
         className={`menu-backdrop-blur ${isMajorMenuOpen || isChatMenuOpen ? 'open' : ''}`}
-        // Let backdrop only close the major menu for now, chat uses X
-        onClick={isMajorMenuOpen ? toggleMajorMenu : undefined} 
+        // MODIFIED: Use the new handler to close whichever menu is open
+        onClick={handleBackdropClick}
       ></div>
 
       {/* Major Menu */}
       <div className={`major-menu ${isMajorMenuOpen ? 'open' : ''}`}>
         <button className="menu-close-button" onClick={toggleMajorMenu} aria-label="Close menu">×</button>
         <h2>Choose Your Major</h2>
-        <p>Currently selected: {selectedMajor || "None"}</p> 
+        <p>Currently selected: {selectedMajor || "None"}</p>
         <select className="major-select-dropdown" value={selectedMajor} onChange={handleMajorChange}>
           <option value="" disabled>--- Select a Major ---</option>
           {majorsList.map((major) => (<option key={major} value={major}>{major}</option>))}
@@ -209,12 +220,12 @@ function Chat() {
 
       {/* --- Chat Menu --- */}
       <div className={`chat-menu ${isChatMenuOpen ? 'open' : ''}`}>
-         <button 
+         <button
            className="menu-close-button" // Reuse same style for close button
-           onClick={toggleChatMenu} 
+           onClick={toggleChatMenu}
            aria-label="Close chat"
          >
-           × 
+           ×
          </button>
          <h2>Chat Assistant</h2>
          {/* Placeholder Chat Interface */}
@@ -232,13 +243,13 @@ function Chat() {
       {/* --- End Chat Menu --- */}
 
       {/* --- Duck Button --- */}
-      <button 
-        className="chat-duck-button" 
+      <button
+        className="chat-duck-button"
         // Make duck button toggle the CHAT menu now
-        onClick={toggleChatMenu} 
+        onClick={toggleChatMenu}
         aria-label="Open Chat Assistant"
       >
-        <Duck3DChat /> 
+        <Duck3DChat />
       </button>
     </div> // --- End Page Wrapper ---
   );
