@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 // For GPT:
 app.post('/schedule', async (req, res) => {
   let { plan, school, requests } = req.body ?? {};
-  res.send(await generateSchedule(plan, studyPlans[school], requests));
+  res.send(await generateSchedule(plan, studyPlans[school ?? "stevens"], requests));
 });
 
 app.get('/available_registrations', async (req, res) => {
