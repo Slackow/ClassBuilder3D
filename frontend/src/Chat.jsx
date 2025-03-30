@@ -4,6 +4,8 @@ import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import Duck3DChat from './Duck3Dchat';
 import './Chat.css';
 import RateMyProfessors from './RateMyProfessor'; // Import the RateMyProfessors component
+import WeeklyCalendar from './WeeklyCalendar'; // Import our new calendar component
+import './WeeklyCalendar.css'; // Import the calendar styles
 import initialAvailableRegistrations from '../public/available_registrations'; // Import from file
 
 // Helper function to format times
@@ -575,29 +577,13 @@ function Chat() {
       {/* Main container */}
       <div className="chat-fullscreen-container">
         <div className="chat-left-panel">
-          <h1>Scheduler Area</h1>
-          {loading && <p className="loading-message">Loading courses, please wait...</p>}
+          {/* Replace the "Scheduler Area" with our WeeklyCalendar component */}
+          <WeeklyCalendar 
+            desiredCourses={desiredTagsData} 
+            takenCourses={takenTagsData} 
+          />
           
-          {/* Display available sections if they exist */}
-          {availableRegistrations && availableRegistrations.availableSections && availableRegistrations.availableSections.length > 0 && (
-            <div className="available-sections">
-              <h3>Available Course Sections</h3>
-              <ul className="sections-list">
-                {availableRegistrations.availableSections.map((section, index) => (
-                  <li key={index} className="section-item">
-                    {section.code} {section.id} Section {section.section}: {section.name}
-                    {section.instructor && <span className="section-instructor"> - {section.instructor}</span>}
-                    {section.days && section.days.length > 0 && (
-                      <span className="section-days"> on {section.days.join(', ')}</span>
-                    )}
-                    {section.times && section.times.length > 0 && (
-                      <span className="section-times"> at {formatTimes(section.times)}</span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          {loading && <p className="loading-message">Loading courses, please wait...</p>}
         </div>
         <div className="chat-right-panel">
           {/* Courses Taken Input Section */}

@@ -1,0 +1,356 @@
+/* WeeklyCalendar.css */
+
+.weekly-calendar-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #333;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.calendar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-action-button {
+  padding: 8px 12px;
+  background-color: rgba(74, 144, 226, 0.2);
+  color: #e0e0e0;
+  border: 1px solid rgba(74, 144, 226, 0.4);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.calendar-action-button:hover {
+  background-color: rgba(74, 144, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+.weekly-calendar {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 60px);
+  overflow-y: auto;
+  position: relative;
+}
+
+.time-column {
+  flex: 0 0 80px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(30, 30, 30, 0.5);
+  border-right: 1px solid #333;
+  position: sticky;
+  left: 0;
+  z-index: 10;
+}
+
+.empty-corner-cell {
+  height: 30px;
+  border-bottom: 1px solid #333;
+  background-color: rgba(30, 30, 30, 0.7);
+}
+
+.time-cell {
+  height: 40px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  border-bottom: 1px solid #333;
+  color: #ccc;
+  font-size: 0.75rem;
+}
+
+.day-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 120px;
+}
+
+.day-header {
+  height: 30px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+  background-color: rgba(30, 30, 30, 0.7);
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.schedule-cell {
+  height: 40px;
+  border-bottom: 1px solid #333;
+  border-right: 1px solid #333;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.schedule-cell:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.schedule-block {
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  border-radius: 4px;
+  padding: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #ffffff;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.schedule-block:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 6;
+}
+
+/* Distinct styling for auto-generated blocks */
+.schedule-block.auto-generated {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+}
+
+.schedule-block.auto-generated:hover {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Distinct styling for user-created blocks */
+.schedule-block.user-created {
+  border: 2px solid rgba(74, 144, 226, 0.4);
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.2);
+}
+
+.schedule-block.user-created:hover {
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.schedule-block.preview {
+  border: 2px dashed #fff;
+  z-index: 4;
+}
+
+.block-name {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.block-time {
+  font-size: 0.7rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.block-edit-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 150;
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease-out;
+}
+
+.block-edit-content {
+  background-color: #2a2a2e;
+  border-radius: 8px;
+  padding: 20px;
+  width: 350px;
+  max-width: 90vw;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideInUp 0.3s ease-out;
+}
+
+.block-edit-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #fff;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #555;
+  background-color: #333;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="color"] {
+  padding: 0;
+  border: none;
+  width: 40px;
+  height: 30px;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+
+.block-time-display {
+  padding: 8px 12px;
+  background-color: #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.save-button, .cancel-button, .delete-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.save-button {
+  background-color: rgba(74, 144, 226, 0.8);
+  color: white;
+}
+
+.save-button:hover {
+  background-color: rgba(74, 144, 226, 1);
+}
+
+.cancel-button {
+  background-color: #4a4a50;
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #5a5a60;
+}
+
+.delete-button {
+  background-color: rgba(255, 99, 71, 0.7);
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: rgba(255, 99, 71, 0.9);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .calendar-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .calendar-action-button {
+    flex: 1;
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 6px;
+  }
+  
+  .time-column {
+    flex: 0 0 60px;
+  }
+  
+  .time-cell {
+    font-size: 0.65rem;
+  }
+  
+  .day-column {
+    min-width: 90px;
+  }
+  
+  .day-header {
+    font-size: 0.8rem;
+  }
+  
+  .block-name, .block-time {
+    font-size: 0.7rem;
+  }
+}
