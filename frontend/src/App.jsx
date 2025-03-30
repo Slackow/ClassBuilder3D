@@ -28,7 +28,7 @@ function Home() {
         <Duck3D />
         {/* If you still want the quack sound, add the hitbox button back here */}
       </div>
-      <h1>Welcome To ClassBuilder3D!</h1>
+      <h1>Welcome To ClassBuilder3D</h1>
       <div className="logo">
         {/* 3. Replace <a> with <Link> pointing to the chat route */}
         <Link to="/chat"> 

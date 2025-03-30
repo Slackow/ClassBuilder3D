@@ -7,6 +7,9 @@ import Andrew from '../images/Andrew.jpg';
 function Contacts() {
   return (
     <div className="fade-container">
+      {/* Added heading for "Meet the Creators" */}
+      <h2 className="creators-heading">Meet the Creators</h2>
+      
       <div className="images-container">
         <div className="image-item">
           <img src={Ryan} alt="Ryan" />
@@ -89,6 +92,9 @@ function Contacts() {
           </a>
         </div>
       </div>
+      
+      {/* Added subtitle "See their pages" */}
+      <p className="pages-subtitle">See their pages above</p>
     </div>
   );
 }
