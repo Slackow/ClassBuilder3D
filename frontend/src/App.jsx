@@ -1,6 +1,7 @@
 import Duck3D from './Duck3D';
 import Contacts from './Contacts';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Cursor from './cursor';
 import './App.css';
 
 // Create a navigation component using Link instead of <a>
@@ -57,6 +58,7 @@ function App() {
   return (
     <Router>
       <div>
+      <Cursor />
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
