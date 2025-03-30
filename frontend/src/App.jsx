@@ -1,5 +1,6 @@
 import Duck3D from './Duck3D';
 import Contacts from './Contacts';
+import About from './About';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cursor from './cursor';
 import './App.css';
@@ -63,6 +64,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contacts />} />
+          <Route path="/about" element={<About />} />
           {/* You can add additional routes for news, about, etc. */}
         </Routes>
       </div>

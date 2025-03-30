@@ -1,0 +1,94 @@
+/* Full-page container for the About section positioned below the topnav */
+.about-container {
+  position: fixed;
+  top: 50px; /* Offset to be below the topnav */
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 50px); /* Use the remaining viewport height */
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  background: transparent; /* Make the entire About page transparent */
+}
+
+/* Hide scrollbar for WebKit */
+.about-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar in Firefox and IE/Edge */
+.about-container {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeInAnimation 1.5s ease-in forwards;
+  opacity: 0; /* Start invisible */
+}
+
+@keyframes fadeInAnimation {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Header styles */
+.about-header {
+  scroll-snap-align: start;
+  text-align: center;
+  margin-bottom: 200px;
+  padding: 20px;
+  background: transparent; /* Ensure individual sections remain transparent */
+}
+
+/* Each full-screen section */
+.about-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  background-attachment: fixed; /* Parallax effect if using background images */
+  background-size: cover;
+  background-position: center;
+  padding: 0 20px;
+  background: transparent; /* Ensure individual sections remain transparent */
+}
+
+/* Background/color variations for demonstration */
+.about-section.left {
+  background: transparent; /* Ensure individual sections remain transparent */
+}
+
+.about-section.right {
+  background: transparent; /* Ensure individual sections remain transparent */
+}
+
+/* Container for text inside each section */
+.section-content {
+  max-width: 600px;
+}
+
+/* Text alignment */
+.about-section.left .section-content {
+  text-align: left;
+}
+
+.about-section.right .section-content {
+  text-align: right;
+}
+
+/* Title styling */
+.section-content h2 {
+  font-family: 'PastaRegular', sans-serif;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Description styling */
+.section-content p {
+  font-family: 'PastaRegular', sans-serif;
+  line-height: 1.6;
+}
