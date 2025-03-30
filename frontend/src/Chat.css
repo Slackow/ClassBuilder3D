@@ -1,10 +1,5 @@
 /* src/Chat.css */
 
-/* Optional: Apply a modern base font if not set globally */
-/* body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-} */
-
 body.menu-open-no-scroll, 
 html.menu-open-no-scroll {
   overflow: hidden; 
@@ -23,19 +18,17 @@ html.menu-open-no-scroll {
   width: 100vw;   
   height: 100vh;  
   z-index: 100; 
-  /* Slightly lighter dark for less harshness */
   background-color: #1f1f1f; 
-  color: #e0e0e0; /* Light grey text for readability */            
-  padding: 25px; /* Consistent padding */             
+  color: #e0e0e0;            
   box-sizing: border-box;   
-  overflow-y: auto;          
   opacity: 0;
   animation: chatContainerFadeIn 0.5s ease-out forwards;
-  transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
+  transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+  display: flex;
 }
 
 .chat-page-wrapper.menu-is-open .chat-fullscreen-container {
-  filter: blur(6px) brightness(0.8); /* Add brightness reduction for depth */
+  filter: blur(6px) brightness(0.8); 
 }
 
 @keyframes chatContainerFadeIn {
@@ -44,52 +37,209 @@ html.menu-open-no-scroll {
   }
 }
 
-.chat-fullscreen-container h1 {
+/* --- Left and Right Panels --- */
+.chat-left-panel {
+  flex: 1; 
+  padding: 25px;
+  box-sizing: border-box;
+  background-color: rgba(0,0,0,0.1); 
+  height: 100vh; 
+  overflow-y: auto; 
+  border-right: 1px solid #333; 
+}
+.chat-left-panel h1 {
   margin-top: 10px; 
   text-align: center; 
-  font-weight: 600; /* Semi-bold */
+  font-weight: 600; 
   color: #ffffff;
   letter-spacing: 0.5px;
 }
 
-/* --- Select Major Button --- */
+.chat-right-panel {
+  flex: 1; 
+  padding: 25px;
+  padding-top: 70px; 
+  box-sizing: border-box;
+  position: relative; 
+  height: 100vh; 
+  overflow-y: auto; 
+  display: flex; 
+  flex-direction: column;
+  gap: 20px; /* Add gap between the sections */
+}
+
+/* --- Styles for Tag Input Component --- */
+.tag-input-section {
+  /* margin-bottom: auto; Removed this, let flex gap handle spacing */
+}
+
+/* Optional: Add more margin specifically between sections if gap isn't enough */
+.section-spacer {
+ /* margin-top: 30px;  */ /* Uncomment if more space needed */
+}
+
+
+.tag-input-section h3 {
+  color: #ccc;
+  font-weight: 500;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 8px;
+}
+
+.select-major-prompt {
+  color: #888;
+  font-style: italic;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+}
+
+.tag-input-container {
+  position: relative; 
+  width: 100%;
+}
+
+.selected-tags-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 10px 0; 
+  min-height: 30px; 
+}
+
+.tag-chip {
+  display: inline-flex; 
+  align-items: center;
+  background-color: #3a3a3e; 
+  color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 15px; 
+  font-size: 0.85rem;
+  white-space: nowrap; 
+}
+
+.tag-chip span {
+  margin-right: 8px;
+}
+
+.remove-tag-button {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0 0 0 2px; 
+  margin-left: auto; 
+  transition: color 0.2s ease;
+}
+
+.remove-tag-button:hover {
+  color: #ff6b6b; 
+}
+
+.input-wrapper {
+   position: relative; 
+}
+
+.tag-input-field {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #555; 
+  border-radius: 6px;
+  background-color: #2a2a2e; 
+  color: #e0e0e0; 
+  font-size: 0.95rem;
+  box-sizing: border-box; 
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-input-field::placeholder {
+  color: #777;
+}
+
+.tag-input-field:focus {
+  outline: none;
+  border-color: #777;
+  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.15); 
+}
+
+.tag-input-field:disabled {
+  background-color: #333;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.suggestions-list {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0; 
+  position: absolute; 
+  left: 0;
+  right: 0;
+  background-color: #2f2f33; 
+  border: 1px solid #555;
+  border-top: none; 
+  border-radius: 0 0 6px 6px; 
+  max-height: 200px; 
+  overflow-y: auto;
+  z-index: 130; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #ccc;
+  font-size: 0.9rem;
+  transition: background-color 0.15s ease;
+}
+
+.suggestion-item:hover {
+  background-color: #4a4a50; 
+  color: #fff;
+}
+
+
+/* --- Menu Styles --- */
 .select-major-button {
   position: fixed;
-  top: 25px; /* Slightly more space from top */
-  right: 30px; /* Slightly more space from right */
-  padding: 9px 18px; /* Adjusted padding */
-  /* Semi-transparent dark instead of white */
+  top: 25px; 
+  right: 30px; 
+  padding: 9px 18px; 
   background-color: rgba(40, 40, 40, 0.8); 
-  backdrop-filter: blur(5px); /* Blur effect on the button itself */
+  backdrop-filter: blur(5px); 
   -webkit-backdrop-filter: blur(5px);
-  color: #e0e0e0; /* Light text */
-  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
-  border-radius: 8px; /* Less rounded, more modern */
+  color: #e0e0e0; 
+  border: 1px solid rgba(255, 255, 255, 0.15); 
+  border-radius: 8px; 
   cursor: pointer;
-  font-size: 0.85rem; /* Slightly smaller */
+  font-size: 0.85rem; 
   font-weight: 500;
   z-index: 119; 
-  transition: all 0.25s ease-out; /* Smoother transition for all properties */
+  transition: all 0.25s ease-out; 
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
 
 .select-major-button:hover {
   background-color: rgba(55, 55, 55, 0.9);
   border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px); /* Lift effect */
+  transform: translateY(-2px); 
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* --- Menu Backdrop Blur --- */
 .menu-backdrop-blur {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* Darker overlay for better contrast with white text menu */
   background-color: rgba(0, 0, 0, 0.3); 
-  backdrop-filter: blur(5px); /* Increased blur slightly */
+  backdrop-filter: blur(5px); 
   -webkit-backdrop-filter: blur(5px); 
   z-index: 115; 
   opacity: 0;
@@ -103,28 +253,25 @@ html.menu-open-no-scroll {
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0s;
 }
 
-/* --- Major Selection Menu --- */
 .major-menu {
   position: fixed;
   top: 0;
   right: 0; 
   width: 50%; 
-  max-width: 400px; /* Slightly smaller max-width */
+  max-width: 400px; 
   height: 100vh;
-  /* Dark charcoal instead of pure black */
   background-color: #1c1c1e; 
-  color: #e0e0e0; /* Light grey text */
-  /* Softer shadow */
+  color: #e0e0e0; 
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.35); 
-  padding: 25px 30px; /* Adjusted padding */
-  padding-top: 55px; /* More padding top to avoid close button */
+  padding: 25px 30px; 
+  padding-top: 55px; 
   box-sizing: border-box;
   z-index: 120; 
   transform: translateX(100%); 
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); /* Standard ease-out */
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); 
   display: flex;
   flex-direction: column;
-  gap: 25px; /* Increased gap slightly */
+  gap: 25px; 
 }
 
 .major-menu.open {
@@ -133,77 +280,72 @@ html.menu-open-no-scroll {
 
 .major-menu h2 {
   margin-top: 0;
-  margin-bottom: 0px; /* Reduced margin */
+  margin-bottom: 0px; 
   color: #ffffff;
-  font-size: 1.4rem; /* Slightly smaller */
+  font-size: 1.4rem; 
   font-weight: 600;
 }
 
 .major-menu p {
-  font-size: 0.9rem; /* Slightly smaller */
-  color: #a0a0a0; /* Lighter grey for secondary text */
-  margin-bottom: 10px; /* Reduced margin */
+  font-size: 0.9rem; 
+  color: #a0a0a0; 
+  margin-bottom: 10px; 
 }
 
-/* --- Menu Close Button --- */
 .menu-close-button {
   position: absolute; 
-  top: 18px;          /* Adjusted position */
+  top: 18px;          
   right: 20px;         
   background: none;
   border: none;
-  font-size: 1.8rem;   /* Slightly smaller X */
+  font-size: 1.8rem;   
   line-height: 1;      
-  color: #aaa;         /* Lighter grey */
+  color: #aaa;         
   cursor: pointer;
-  padding: 8px;        /* Increased padding area */
-  border-radius: 50%; /* Make hover area round */
+  padding: 8px;        
+  border-radius: 50%; 
   z-index: 1;          
   transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
 
 .menu-close-button:hover {
   color: #ffffff;          
-  background-color: rgba(255, 255, 255, 0.1); /* Subtle background on hover */
-  transform: rotate(90deg); /* Rotate effect on hover */
+  background-color: rgba(255, 255, 255, 0.1); 
+  transform: rotate(90deg); 
 }
 
-
-/* --- Dropdown Styling --- */
 .major-select-dropdown {
   width: 100%;
-  padding: 14px 18px; /* Increased padding */
-  border: 1px solid #444; /* Darker border */
-  border-radius: 6px; /* Slightly less rounded */
-  /* Dark background matching menu theme */
+  padding: 14px 18px; 
+  border: 1px solid #444; 
+  border-radius: 6px; 
   background-color: #2a2a2e; 
   font-size: 0.95rem;
-  color: #e0e0e0; /* Light text */
+  color: #e0e0e0; 
   cursor: pointer;
   appearance: none; 
   -webkit-appearance: none;
   -moz-appearance: none;
-  /* Updated SVG arrow with white fill */
   background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
   background-repeat: no-repeat;
-  background-position: right 18px center; /* Adjusted position */
-  background-size: 10px auto; /* Slightly smaller arrow */
+  background-position: right 18px center; 
+  background-size: 10px auto; 
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .major-select-dropdown:focus {
   outline: none;
-  border-color: #666; /* Slightly lighter border on focus */
-  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.2); /* Subtle focus ring */
+  border-color: #666; 
+  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.2); 
 }
 
 
 /* --- Duck Button --- */
 .chat-duck-button {
   position: fixed;       
-  bottom: 30px; /* More space */         
-  right: 30px;  /* More space */          
-  width: 60px;  /* Slightly smaller */         
+  bottom: 30px;        
+  right: 30px;          
+  width: 60px;           
   height: 60px;          
   background-color: #ffffff; 
   border-radius: 50%;    
@@ -216,12 +358,11 @@ html.menu-open-no-scroll {
   overflow: hidden;      
   z-index: 118;          
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle resting shadow */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
 .chat-duck-button:hover {
-  transform: scale(1.1); /* Reduced scale slightly */
-  /* Brighter, slightly softer glow */
+  transform: scale(1.1); 
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7); 
 }
 
