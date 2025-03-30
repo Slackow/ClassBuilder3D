@@ -1,28 +1,19 @@
 /* src/Chat.css */
 
+/* ... (keep styles for .chat-fullscreen-container, h1, .chat-duck-button, .chat-duck-button:hover) ... */
+
 .chat-fullscreen-container {
-  /* Positioning & Sizing */
-  position: fixed; /* Position relative to the viewport, ignore document flow */
-  top: 0;          /* Align to the very top edge */
-  left: 0;         /* Align to the very left edge */
-  width: 100vw;    /* Take full viewport width */
-  height: 100vh;   /* Take full viewport height */
-
-  /* Stacking Order */
-  /* Make sure this z-index is higher than your .topnav's z-index */
-  /* If .topnav has no z-index or is lower than 100, this will work */
+  position: fixed; 
+  top: 0;         
+  left: 0;        
+  width: 100vw;   
+  height: 100vh;  
   z-index: 100; 
-
-  /* Appearance */
-  background-color: #242424; /* Example background - change as needed */
-  color: white;             /* Example text color */
-
-  /* Content Handling */
-  padding: 20px;              /* Add padding for content inside */
-  box-sizing: border-box;     /* Include padding within the width/height */
-  overflow-y: auto;           /* Allow scrolling if content exceeds screen height */
-
-  /* Optional: Apply a fade-in specifically for the chat */
+  background-color: #242424; 
+  color: white;            
+  padding: 20px;             
+  box-sizing: border-box;   
+  overflow-y: auto;          
   opacity: 0;
   animation: chatContainerFadeIn 0.6s ease-out forwards;
 }
@@ -33,13 +24,44 @@
   }
 }
 
-/* Style content within the chat container */
 .chat-fullscreen-container h1 {
-  margin-top: 0; /* Remove default top margin */
-  /* Add other styles for your chat title */
+  margin-top: 0; 
+  text-align: center; 
 }
 
-/* Add styles for your chat messages, input fields, etc. below */
-/* Example: */
-/* .chat-messages { ... } */
-/* .chat-input { ... } */
+
+/* --- Styles for the Duck Button --- */
+.chat-duck-button {
+  position: fixed;       
+  bottom: 25px;          
+  right: 25px;           
+  width: 65px;           /* Button size */
+  height: 65px;          
+  background-color: white; 
+  border-radius: 50%;    
+  border: none;          
+  padding: 0; /* Reset padding */           
+  cursor: pointer;       
+  display: flex;         /* Use flex to help center canvas */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;      /* Clip the canvas/duck */
+  z-index: 110;          
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  box-shadow: 0 0 0px 0px rgba(255, 255, 255, 0); 
+}
+
+.chat-duck-button:hover {
+  transform: scale(1.12); /* Scale the button itself */
+  box-shadow: 0 0 18px 6px rgba(255, 255, 255, 0.65); /* Adjusted glow */
+}
+
+/* --- Styling for the Canvas INSIDE the button --- */
+.chat-duck-button canvas {
+   /* Let flexbox handle centering */
+   position:relative;
+   width: 100% !important;  /* Canvas fills the button container */
+   height: 100% !important; 
+   display: block;          /* Prevents extra space below canvas */
+   transform: scale(1.25);
+}
