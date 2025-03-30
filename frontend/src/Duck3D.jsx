@@ -24,7 +24,6 @@ function Duck() {
   useFrame(() => {
     if (ref.current) {
       ref.current.position.x = 0;
-      ref.current.rotation.x = .3;
       ref.current.rotation.y += 0.01;
     }
   });

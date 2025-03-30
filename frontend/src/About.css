@@ -1,4 +1,5 @@
-/* Full-page container for the About section positioned below the topnav */
+/* --- Keep Original Container & Scrolling Styles --- */
+/* ... (keep the .about-container, scrollbar, fade-in styles as before) ... */
 .about-container {
   position: fixed;
   top: 50px; /* Offset to be below the topnav */
@@ -8,87 +9,183 @@
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
-  background: transparent; /* Make the entire About page transparent */
+  background: transparent; /* Keep overall background transparent */
+  padding-top: 50px; /* Add some padding at the top */
+  box-sizing: border-box;
 }
 
-/* Hide scrollbar for WebKit */
-.about-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar in Firefox and IE/Edge */
-.about-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
+/* Hide scrollbar */
+.about-container::-webkit-scrollbar { display: none; }
+.about-container { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* Fade-in animation */
 .fade-in {
   animation: fadeInAnimation 1.5s ease-in forwards;
-  opacity: 0; /* Start invisible */
+  opacity: 0;
 }
+@keyframes fadeInAnimation { to { opacity: 1; } }
 
-@keyframes fadeInAnimation {
-  to {
-    opacity: 1;
-  }
-}
 
-/* Header styles */
-.about-header {
-  scroll-snap-align: start;
-  text-align: center;
-  margin-bottom: 200px;
-  padding: 20px;
-  background: transparent; /* Ensure individual sections remain transparent */
-}
-
-/* Each full-screen section */
+/* --- Original Section Structure (Keep for Layout/Snap) --- */
+.about-header,
 .about-section {
-  height: 100vh;
+  min-height: calc(100vh - 50px); /* Ensure sections have enough space */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* Vertically center the card */
+  justify-content: center; /* Horizontally center the card */
   scroll-snap-align: start;
-  background-attachment: fixed; /* Parallax effect if using background images */
-  background-size: cover;
-  background-position: center;
-  padding: 0 20px;
-  background: transparent; /* Ensure individual sections remain transparent */
+  padding: 40px 20px; /* Padding around the card area */
+  box-sizing: border-box;
+  background: transparent; /* Ensure sections themselves are transparent */
 }
 
-/* Background/color variations for demonstration */
-.about-section.left {
-  background: transparent; /* Ensure individual sections remain transparent */
+.about-header {
+  margin-bottom: 0; /* Remove the large margin */
 }
 
+.about-section.left,
 .about-section.right {
-  background: transparent; /* Ensure individual sections remain transparent */
+  background: transparent;
 }
 
-/* Container for text inside each section */
-.section-content {
-  max-width: 600px;
+/* --- Add Card Styling --- */
+.content-card {
+  padding: 25px 30px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  position: relative;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4),
+              0 5px 10px rgba(0, 0, 0, 0.25);
+  max-width: 650px;
+  width: 90%;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  z-index: 1;
+  box-sizing: border-box; /* Add explicit box-sizing */
+  /* Ensure it contains floated/positioned children if needed, although unlikely here */
+  /* overflow: hidden; */ /* Avoid using unless necessary, can clip shadows */
 }
 
-/* Text alignment */
+/* Orange Glow Pseudo-element */
+.content-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  z-index: -1;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 100, 0, 0.35),
+    transparent 75%
+  );
+  filter: blur(18px);
+  opacity: 0.65;
+  transform: translateY(12px) scale(0.96);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Hover Effects */
+.content-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.35),
+              0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.content-card:hover::after {
+  opacity: 0.9;
+  transform: translateY(18px) scale(1.02);
+}
+
+
+/* --- Text Styling within Cards --- */
+
+/* Header Card Specifics */
+.header-card {
+  text-align: center; /* Centers the H1 block within the card */
+  /* Ensure the card itself doesn't collapse if H1 has issues */
+  position: relative;
+  top: -50px;
+  min-height: 1em; /* Optional: ensure minimum height */
+}
+
+.header-card h1 {
+  font-family: var(--heading-font, 'PastaRegular', sans-serif);
+  font-size: 2.5rem;
+  /* --- FIX: Ensure NO margin pushes the H1 out --- */
+  margin: 0;
+  /* --- FIX: Ensure NO padding on H1 itself adds unexpected space --- */
+  padding: 0;
+  /* Set a reasonable line-height to control vertical space */
+  line-height: 1.3;
+  color: #ffcc80;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  /* Ensure text renders above other layers if needed */
+  position: relative;
+  top: 0px;
+  z-index: 2;
+  /* Optional: If still having issues, try explicitly setting display */
+  /* display: inline-block; width: 100%; */
+}
+
+/* Section Content Card Specifics */
+.section-content h2 {
+  font-family: var(--heading-font, 'PastaRegular', sans-serif);
+  font-weight: bold;
+  margin-bottom: 15px; /* Space below title */
+  margin-top: 0; /* Ensure no top margin */
+  font-size: 1.8rem;
+  line-height: 1.4; /* Control line height */
+  color: #ffa726;
+}
+
+.section-content p {
+  font-family: 'PastaRegular', sans-serif;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin: 0; /* Ensure no paragraph margins */
+  opacity: 0.9;
+}
+
+/* Text Alignment inside section cards */
 .about-section.left .section-content {
   text-align: left;
 }
 
 .about-section.right .section-content {
-  text-align: right;
+  text-align: left; /* Or right if preferred */
 }
 
-/* Title styling */
-.section-content h2 {
-  font-family: 'PastaRegular', sans-serif;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
 
-/* Description styling */
-.section-content p {
-  font-family: 'PastaRegular', sans-serif;
-  line-height: 1.6;
+/* Responsive Adjustments */
+/* ... (keep responsive styles as before) ... */
+@media (max-width: 768px) {
+  .content-card {
+    padding: 20px 25px;
+    max-width: 90%;
+  }
+
+  .header-card h1 {
+    font-size: 2rem; /* Adjust font size for mobile */
+    line-height: 1.3;
+  }
+
+  .section-content h2 {
+    font-size: 1.5rem;
+    line-height: 1.4;
+  }
+
+  .section-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .about-header,
+  .about-section {
+     min-height: auto; /* Allow sections to be shorter */
+     padding: 50px 15px; /* Adjust padding */
+  }
 }
