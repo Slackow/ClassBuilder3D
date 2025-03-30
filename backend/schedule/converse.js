@@ -42,8 +42,14 @@ Return only valid JSON.
   try {
     
     const response = await openai.createChatCompletion({
-      model: "gpt-4", 
-      messages: [{ role: "user", content: prompt }],
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: "You are an academic advisor AI that uses a student's academic plan, a sample study plan, " +
+            "and a list of course requests to generate a course schedule. Your output should be a valid JSON object " +
+            "with term names as keys (e.g., 'Term I', 'Term II', etc.) and arrays of course codes as values. " +
+            "Consider prerequisites, credit requirements, and course sequencing. Do not include any extra commentary outside of the JSON response." },
+        { role: "user", content: prompt }
+      ],
       max_tokens: 500,
       temperature: 0.7,
     });
@@ -64,7 +70,7 @@ Return only valid JSON.
       { term: "Fall 2022", courses: ["CS115", "MA121"] },
       { term: "Spring 2023", courses: ["CS284", "MA122"] }
     ],
-    requests: [] 
+    requests: []
   };
 
   const sampleStudyPlan = `
