@@ -27,6 +27,7 @@ html.menu-open-no-scroll {
   display: flex;
 }
 
+/* Apply blur when *either* menu is open */
 .chat-page-wrapper.menu-is-open .chat-fullscreen-container {
   filter: blur(6px) brightness(0.8); 
 }
@@ -65,20 +66,16 @@ html.menu-open-no-scroll {
   overflow-y: auto; 
   display: flex; 
   flex-direction: column;
-  gap: 20px; /* Add gap between the sections */
+  gap: 20px; 
 }
 
 /* --- Styles for Tag Input Component --- */
 .tag-input-section {
-  /* margin-bottom: auto; Removed this, let flex gap handle spacing */
+  /* Let gap handle spacing */
 }
-
-/* Optional: Add more margin specifically between sections if gap isn't enough */
 .section-spacer {
- /* margin-top: 30px;  */ /* Uncomment if more space needed */
+ /* margin-top: 30px; */ 
 }
-
-
 .tag-input-section h3 {
   color: #ccc;
   font-weight: 500;
@@ -86,7 +83,6 @@ html.menu-open-no-scroll {
   border-bottom: 1px solid #444;
   padding-bottom: 8px;
 }
-
 .select-major-prompt {
   color: #888;
   font-style: italic;
@@ -96,12 +92,10 @@ html.menu-open-no-scroll {
   background-color: rgba(255, 255, 255, 0.03);
   border-radius: 6px;
 }
-
 .tag-input-container {
   position: relative; 
   width: 100%;
 }
-
 .selected-tags-area {
   display: flex;
   flex-wrap: wrap;
@@ -110,7 +104,6 @@ html.menu-open-no-scroll {
   padding: 10px 0; 
   min-height: 30px; 
 }
-
 .tag-chip {
   display: inline-flex; 
   align-items: center;
@@ -121,222 +114,195 @@ html.menu-open-no-scroll {
   font-size: 0.85rem;
   white-space: nowrap; 
 }
-
 .tag-chip span {
   margin-right: 8px;
 }
-
 .remove-tag-button {
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
-  font-size: 1.1rem;
-  line-height: 1;
-  padding: 0 0 0 2px; 
-  margin-left: auto; 
-  transition: color 0.2s ease;
+  background: none; border: none; color: #aaa; cursor: pointer;
+  font-size: 1.1rem; line-height: 1; padding: 0 0 0 2px; 
+  margin-left: auto; transition: color 0.2s ease;
 }
-
-.remove-tag-button:hover {
-  color: #ff6b6b; 
-}
-
-.input-wrapper {
-   position: relative; 
-}
-
+.remove-tag-button:hover { color: #ff6b6b; }
+.input-wrapper { position: relative; }
 .tag-input-field {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #555; 
-  border-radius: 6px;
-  background-color: #2a2a2e; 
-  color: #e0e0e0; 
-  font-size: 0.95rem;
-  box-sizing: border-box; 
+  width: 100%; padding: 12px 15px; border: 1px solid #555; 
+  border-radius: 6px; background-color: #2a2a2e; 
+  color: #e0e0e0; font-size: 0.95rem; box-sizing: border-box; 
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-
-.tag-input-field::placeholder {
-  color: #777;
-}
-
+.tag-input-field::placeholder { color: #777; }
 .tag-input-field:focus {
-  outline: none;
-  border-color: #777;
+  outline: none; border-color: #777;
   box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.15); 
 }
-
-.tag-input-field:disabled {
-  background-color: #333;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
+.tag-input-field:disabled { background-color: #333; cursor: not-allowed; opacity: 0.6; }
 .suggestions-list {
-  list-style: none;
-  padding: 0;
-  margin: 5px 0 0 0; 
-  position: absolute; 
-  left: 0;
-  right: 0;
-  background-color: #2f2f33; 
-  border: 1px solid #555;
-  border-top: none; 
-  border-radius: 0 0 6px 6px; 
-  max-height: 200px; 
-  overflow-y: auto;
-  z-index: 130; 
+  list-style: none; padding: 0; margin: 5px 0 0 0; 
+  position: absolute; left: 0; right: 0; background-color: #2f2f33; 
+  border: 1px solid #555; border-top: none; 
+  border-radius: 0 0 6px 6px; max-height: 200px; 
+  overflow-y: auto; z-index: 130; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-
 .suggestion-item {
-  padding: 10px 15px;
-  cursor: pointer;
-  color: #ccc;
-  font-size: 0.9rem;
-  transition: background-color 0.15s ease;
+  padding: 10px 15px; cursor: pointer; color: #ccc;
+  font-size: 0.9rem; transition: background-color 0.15s ease;
 }
-
-.suggestion-item:hover {
-  background-color: #4a4a50; 
-  color: #fff;
-}
+.suggestion-item:hover { background-color: #4a4a50; color: #fff; }
 
 
 /* --- Menu Styles --- */
 .select-major-button {
-  position: fixed;
-  top: 25px; 
-  right: 30px; 
-  padding: 9px 18px; 
-  background-color: rgba(40, 40, 40, 0.8); 
-  backdrop-filter: blur(5px); 
-  -webkit-backdrop-filter: blur(5px);
-  color: #e0e0e0; 
-  border: 1px solid rgba(255, 255, 255, 0.15); 
-  border-radius: 8px; 
-  cursor: pointer;
-  font-size: 0.85rem; 
-  font-weight: 500;
-  z-index: 119; 
-  transition: all 0.25s ease-out; 
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  position: fixed; top: 25px; right: 30px; padding: 9px 18px; 
+  background-color: rgba(40, 40, 40, 0.8); backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px); color: #e0e0e0; 
+  border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; 
+  cursor: pointer; font-size: 0.85rem; font-weight: 500; z-index: 119; 
+  transition: all 0.25s ease-out; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
 }
-
 .select-major-button:hover {
-  background-color: rgba(55, 55, 55, 0.9);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px); 
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+  background-color: rgba(55, 55, 55, 0.9); border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
 }
-
 .menu-backdrop-blur {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3); 
-  backdrop-filter: blur(5px); 
-  -webkit-backdrop-filter: blur(5px); 
-  z-index: 115; 
-  opacity: 0;
-  visibility: hidden;
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px); 
+  -webkit-backdrop-filter: blur(5px); z-index: 115; 
+  opacity: 0; visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0.4s; 
 }
-
 .menu-backdrop-blur.open {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1; visibility: visible;
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0s;
 }
+.major-menu { /* Style remains the same */
+  position: fixed; top: 0; right: 0; width: 50%; max-width: 400px; 
+  height: 100vh; background-color: #1c1c1e; color: #e0e0e0; 
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.35); padding: 25px 30px; 
+  padding-top: 55px; box-sizing: border-box; z-index: 120; 
+  transform: translateX(100%); 
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); 
+  display: flex; flex-direction: column; gap: 25px; 
+}
+.major-menu.open { transform: translateX(0); }
+.major-menu h2 { margin-top: 0; margin-bottom: 0px; color: #ffffff; font-size: 1.4rem; font-weight: 600; }
+.major-menu p { font-size: 0.9rem; color: #a0a0a0; margin-bottom: 10px; }
+.menu-close-button { /* Style can be reused */
+  position: absolute; top: 18px; right: 20px; background: none; border: none;
+  font-size: 1.8rem; line-height: 1; color: #aaa; cursor: pointer;
+  padding: 8px; border-radius: 50%; z-index: 1; 
+  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+.menu-close-button:hover {
+  color: #ffffff; background-color: rgba(255, 255, 255, 0.1); 
+  transform: rotate(90deg); 
+}
+.major-select-dropdown { /* Style remains the same */
+  width: 100%; padding: 14px 18px; border: 1px solid #444; 
+  border-radius: 6px; background-color: #2a2a2e; 
+  font-size: 0.95rem; color: #e0e0e0; cursor: pointer;
+  appearance: none; -webkit-appearance: none; -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat; background-position: right 18px center; 
+  background-size: 10px auto; 
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.major-select-dropdown:focus {
+  outline: none; border-color: #666; 
+  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.2); 
+}
 
-.major-menu {
+
+/* --- Chat Menu --- */
+.chat-menu {
+  /* Very similar to major-menu */
   position: fixed;
   top: 0;
   right: 0; 
-  width: 50%; 
-  max-width: 400px; 
+  width: 50%; /* Same width */
+  max-width: 400px; /* Same max-width */
   height: 100vh;
-  background-color: #1c1c1e; 
+  background-color: #1c1c1e; /* Same background */
   color: #e0e0e0; 
   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.35); 
   padding: 25px 30px; 
   padding-top: 55px; 
   box-sizing: border-box;
+  /* Same z-index as major menu, assumption is only one is open */
   z-index: 120; 
   transform: translateX(100%); 
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); 
+  /* Use flex column to structure chat interface */
   display: flex;
   flex-direction: column;
-  gap: 25px; 
+  /* No gap needed if chat interface handles internal spacing */
+  /* gap: 25px; */ 
 }
 
-.major-menu.open {
+.chat-menu.open {
   transform: translateX(0); 
 }
 
-.major-menu h2 {
+.chat-menu h2 {
   margin-top: 0;
-  margin-bottom: 0px; 
+  margin-bottom: 20px; /* Space below title */
   color: #ffffff;
   font-size: 1.4rem; 
   font-weight: 600;
+  text-align: center; /* Center chat title */
 }
 
-.major-menu p {
-  font-size: 0.9rem; 
-  color: #a0a0a0; 
-  margin-bottom: 10px; 
+/* --- Placeholder Chat Interface Styles --- */
+.chat-interface-placeholder {
+  flex-grow: 1; /* Takes up remaining vertical space */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent content spilling */
 }
 
-.menu-close-button {
-  position: absolute; 
-  top: 18px;          
-  right: 20px;         
-  background: none;
+.chat-messages-area {
+  flex-grow: 1; /* Takes up most space */
+  overflow-y: auto; /* Scrollable message area */
+  border: 1px dashed #444; /* Placeholder border */
+  border-radius: 6px;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  border-top: 1px solid #333; /* Separator */
+  padding-top: 15px;
+}
+
+.chat-input-area input[type="text"] {
+  flex-grow: 1; /* Input takes available space */
+  padding: 10px 14px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #2a2a2e;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+.chat-input-area input[type="text"]:focus {
+   outline: none; border-color: #777;
+   box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.15); 
+}
+
+.chat-input-area button {
+  padding: 10px 18px;
+  background-color: #4a4a50; /* Button color */
   border: none;
-  font-size: 1.8rem;   
-  line-height: 1;      
-  color: #aaa;         
+  color: white;
+  border-radius: 6px;
   cursor: pointer;
-  padding: 8px;        
-  border-radius: 50%; 
-  z-index: 1;          
-  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
 }
 
-.menu-close-button:hover {
-  color: #ffffff;          
-  background-color: rgba(255, 255, 255, 0.1); 
-  transform: rotate(90deg); 
-}
-
-.major-select-dropdown {
-  width: 100%;
-  padding: 14px 18px; 
-  border: 1px solid #444; 
-  border-radius: 6px; 
-  background-color: #2a2a2e; 
-  font-size: 0.95rem;
-  color: #e0e0e0; 
-  cursor: pointer;
-  appearance: none; 
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
-  background-repeat: no-repeat;
-  background-position: right 18px center; 
-  background-size: 10px auto; 
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.major-select-dropdown:focus {
-  outline: none;
-  border-color: #666; 
-  box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.2); 
+.chat-input-area button:hover {
+  background-color: #5a5a60;
 }
 
 
@@ -356,15 +322,23 @@ html.menu-open-no-scroll {
   align-items: center;
   justify-content: center;
   overflow: hidden;      
+  /* Keep z-index below menus */
   z-index: 118;          
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
 }
 
-.chat-duck-button:hover {
+/* Don't show hover effect if the chat menu is open */
+.chat-page-wrapper.menu-is-open .chat-duck-button:hover {
+  transform: scale(1); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+}
+/* Apply hover only when menu is closed */
+.chat-page-wrapper:not(.menu-is-open) .chat-duck-button:hover {
   transform: scale(1.1); 
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7); 
 }
+
 
 .chat-duck-button canvas {
    width: 100% !important;  
