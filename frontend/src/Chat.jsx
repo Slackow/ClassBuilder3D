@@ -1,65 +1,31 @@
 // src/Chat.jsx
 
-
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import Duck3DChat from './Duck3Dchat';
 import './Chat.css';
 import RateMyProfessors from './RateMyProfessor'; // Import the RateMyProfessors component
+import initialAvailableRegistrations from '../public/available_registrations'; // Import from file
 
+// Helper function to format times
+const formatTimes = (times) => {
+  if (!times || times.length < 2) return 'Time TBD';
+  
+  const formatTime = (minutes) => {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);
+    return `${displayHours}:${mins.toString().padStart(2, '0')} ${period}`;
+  };
+  
+  return `${formatTime(times[0])} - ${formatTime(times[1])}`;
+};
 
 // --- Define Majors List ---
 const majorsList = [
   "Computer Science",
   "Cybersecurity",
 ];
-
-
-// --- Define Courses by Major with Professor Information ---
-const coursesByMajor = {
-  "Computer Science": [
-    { id: "cs115", name: "CS 115 - Introduction to Computer Science", professor: "Mordohai, Philippos" },
-    { id: "cs135", name: "CS 135 - Discrete Structures", professor: "Bonelli, Eduardo" },
-    { id: "cs146", name: "CS 146 - Introduction to Web Programming", professor: "Duggan, Dominic" },
-    { id: "cs284", name: "CS 284 - Data Structures", professor: "Borowski, Samuel" },
-    { id: "cs385", name: "CS 385 - Algorithms", professor: "Nicolosi, Antonio" },
-    { id: "cs392", name: "CS 392 - Systems Programming", professor: "Bhattacharjee, Samson" },
-    { id: "cs396", name: "CS 396 - Security, Privacy & Society", professor: "Moarref, Sajjad" },
-    { id: "cs442", name: "CS 442 - Database Management Systems", professor: "Rowland, David" },
-    { id: "cs496", name: "CS 496 - Programming Languages", professor: "Bonelli, Eduardo" },
-    { id: "cs511", name: "CS 511 - Concurrent Programming", professor: "Nicolosi, Antonio" },
-    { id: "cs546", name: "CS 546 - Web Programming I", professor: "Hill, Christopher" },
-    { id: "cs554", name: "CS 554 - Web Programming II", professor: "Hill, Christopher" },
-    { id: "ma222", name: "MA 222 - Probability and Statistics", professor: "Chen, Yi" },
-    { id: "ma123", name: "MA 123 - Calculus I", professor: "Zaleski, Anthony" },
-    { id: "ma124", name: "MA 124 - Calculus II", professor: "Zaleski, Anthony" },
-  ],
-  "Cybersecurity": [
-    { id: "cs115", name: "CS 115 - Introduction to Computer Science", professor: "Mordohai, Philippos" },
-    { id: "cs135", name: "CS 135 - Discrete Structures", professor: "Bonelli, Eduardo" },
-    { id: "cs284", name: "CS 284 - Data Structures", professor: "Borowski, Samuel" },
-    { id: "ma123", name: "MA 123 - Calculus I", professor: "Zaleski, Anthony" },
-    { id: "ma222", name: "MA 222 - Probability and Statistics", professor: "Chen, Yi" },
-    { id: "cs392", name: "CS 392 - Systems Programming", professor: "Bhattacharjee, Samson" },
-    { id: "cs306", name: "CS 306 - Introduction to IT Security", professor: "Prabhu, Srilaxmi" },
-    { id: "cs370", name: "CS 370 - Introduction to Operating Systems", professor: "Geller, Mykhailo" },
-    { id: "cs488", name: "CS 488 - Computer Architecture", professor: "Ou, Jun" },
-    { id: "cs492", name: "CS 492 - Operating Systems Security", professor: "Memon, Nasir" },
-    { id: "cs494", name: "CS 494 - Network and Internet Security", professor: "Bhattacharjee, Samson" },
-    { id: "cs573", name: "CS 573 - Fundamentals of CyberSecurity", professor: "Geller, Mykhailo" },
-    { id: "cs576", name: "CS 576 - Systems Security", professor: "Zhang, Wendy" },
-    { id: "cs577", name: "CS 577 - Reverse Engineering and Application Analysis", professor: "Prabhu, Srilaxmi" },
-    { id: "cs578", name: "CS 578 - Privacy in a Networked World", professor: "Nicolosi, Antonio" },
-    { id: "cs579", name: "CS 579 - Foundations of Cryptography", professor: "Bajaj, Neeraj" },
-    { id: "cs588", name: "CS 588 - Network Management and Security", professor: "Ananta, Balaji" },
-    { id: "cs519", name: "CS 519 - Introduction to E-Commerce Security", professor: "Santos, Paulo" },
-    { id: "cs549", name: "CS 549 - Introduction to Computer Networks", professor: "Ananta, Balaji" },
-    { id: "cs571", name: "CS 571 - Cybersecurity Ethics", professor: "Rowland, David" },
-  ],
-};
-// --- END COURSE DATA ---
-
-
-
 
 function Chat() {
   // State for Major Menu
@@ -69,6 +35,10 @@ function Chat() {
   const dropdownRef = useRef(null);
   const selectContainerRef = useRef(null);
 
+  // State for available courses and API data
+  const [availableRegistrations, setAvailableRegistrations] = useState(initialAvailableRegistrations || null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // State for Tag Input 1 (Courses Taken)
   const [takenInputValue, setTakenInputValue] = useState("");
@@ -76,24 +46,21 @@ function Chat() {
   const [takenTagsData, setTakenTagsData] = useState([]); // Store the full course objects
   const [isTakenSuggestionsOpen, setIsTakenSuggestionsOpen] = useState(false);
 
-
   // State for Tag Input 2 (Courses Desired)
   const [desiredInputValue, setDesiredInputValue] = useState("");
   const [desiredTags, setDesiredTags] = useState([]);
   const [desiredTagsData, setDesiredTagsData] = useState([]); // Store the full course objects
   const [isDesiredSuggestionsOpen, setIsDesiredSuggestionsOpen] = useState(false);
 
-
   // --- State for Chat Menu ---
   const [isChatMenuOpen, setIsChatMenuOpen] = useState(false);
- 
+
   // State for selected professor, active course ID, and selected course
   const [selectedProfessor, setSelectedProfessor] = useState("");
   const [activeCourseId, setActiveCourseId] = useState("");
   const [selectedCourse, setSelectedCourse] = useState(null);
 
-
-  // --- NEW State for Chat ---
+  // --- State for Chat ---
   const [messages, setMessages] = useState([
     { sender: 'assistant', text: 'Hello! How can I help you plan your schedule today? Please select your major first if you haven\'t.' }
   ]);
@@ -101,6 +68,94 @@ function Chat() {
   const [isAssistantTyping, setIsAssistantTyping] = useState(false);
   const messagesEndRef = useRef(null); // Ref for scrolling
 
+  // Fetch available registrations when major changes
+  useEffect(() => {
+    if (selectedMajor) {
+      // Add a message to inform the user about the fetching
+      setMessages(prev => [...prev, { 
+        sender: 'assistant', 
+        text: `Loading courses for ${selectedMajor}. Please wait...` 
+      }]);
+      
+      // Call the function to fetch available registrations
+      fetchAvailableRegistrations(selectedMajor);
+      
+      // Set a fallback timeout in case the fetch takes too long
+      const fallbackTimer = setTimeout(() => {
+        if (loading) {
+          setLoading(false);
+          setMessages(prev => [...prev, { 
+            sender: 'assistant', 
+            text: `Loading is taking longer than expected. Using locally stored course data for now.` 
+          }]);
+          
+          // Use the initial data as fallback
+          if (!availableRegistrations && initialAvailableRegistrations) {
+            setAvailableRegistrations(initialAvailableRegistrations);
+          }
+        }
+      }, 5000); // 5 second timeout
+      
+      // Clean up the timer
+      return () => clearTimeout(fallbackTimer);
+    }
+  }, [selectedMajor]);
+
+  // Function to fetch available registrations from the API
+  const fetchAvailableRegistrations = async (program) => {
+    try {
+      setLoading(true);
+      
+      // Build query params
+      const queryParams = new URLSearchParams();
+      if (program) {
+        queryParams.append('program', program);
+      }
+      
+      // Use the full backend URL
+      // Make sure this URL matches your backend server
+      const url = `http://localhost:3000/available_registrations${queryParams.toString() ? '?' + queryParams.toString() : ''}`;
+      
+      console.log("Fetching from URL:", url);
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch available registrations: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log("API response data:", data);
+      setAvailableRegistrations(data);
+      
+      // Add a message to inform the user
+      setMessages(prev => [...prev, { 
+        sender: 'assistant', 
+        text: `I've loaded the courses for ${program} from the registration system. You can now select courses you've taken or want to take.` 
+      }]);
+      
+    } catch (error) {
+      console.error('Error fetching registrations:', error);
+      setError(error.message);
+      
+      // Add an error message to the chat
+      setMessages(prev => [...prev, { 
+        sender: 'assistant', 
+        text: `I had trouble connecting to the course registration system. Using locally stored course data instead.` 
+      }]);
+      
+      // Fall back to using initial data
+      setAvailableRegistrations(initialAvailableRegistrations);
+      
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Add no-scroll class to body when menu is open
@@ -112,19 +167,17 @@ function Chat() {
       document.documentElement.classList.remove('menu-open-no-scroll');
     }
 
-
     // Cleanup function
     return () => {
       document.body.classList.remove('menu-open-no-scroll');
       document.documentElement.classList.remove('menu-open-no-scroll');
     };
   }, [isMajorMenuOpen, isChatMenuOpen]);
- 
-  // --- NEW useEffect for Scrolling Chat ---
+
+  // --- useEffect for Scrolling Chat ---
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]); // Scroll whenever messages change
-
 
   useEffect(() => {
     // Close dropdown when clicking outside
@@ -134,7 +187,6 @@ function Chat() {
       }
     }
 
-
     // Add event listener
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -143,7 +195,6 @@ function Chat() {
     };
   }, []);
 
-
   // --- Menu Logic ---
   const toggleMajorMenu = () => {
     const opening = !isMajorMenuOpen;
@@ -151,13 +202,11 @@ function Chat() {
     if (opening) setIsChatMenuOpen(false); // Close chat menu if opening major menu
   };
 
-
   const toggleChatMenu = () => {
     const opening = !isChatMenuOpen;
     setIsChatMenuOpen(opening);
     if (opening) setIsMajorMenuOpen(false); // Close major menu if opening chat menu
   };
-
 
   // --- Backdrop Click Handler ---
   const handleBackdropClick = () => {
@@ -168,23 +217,11 @@ function Chat() {
     }
   };
 
-
   const handleMajorChange = (event) => {
     const newMajor = event.target.value;
     setSelectedMajor(newMajor);
-    setTakenTags([]);
-    setTakenTagsData([]);
-    setDesiredTags([]);
-    setDesiredTagsData([]);
-    setTakenInputValue("");
-    setDesiredInputValue("");
-    setIsTakenSuggestionsOpen(false);
-    setIsDesiredSuggestionsOpen(false);
-    setSelectedProfessor(""); // Reset selected professor
-    setActiveCourseId(""); // Reset active course
-    setSelectedCourse(null); // Reset selected course
+    resetSelections();
   };
-
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -201,11 +238,14 @@ function Chat() {
     }
   };
 
-
   const handleMajorSelect = (major) => {
     setSelectedMajor(major);
     setIsDropdownOpen(false);
-   
+    resetSelections();
+  };
+
+  // Helper function to reset all selections
+  const resetSelections = () => {
     // Reset course inputs
     setTakenTags([]);
     setTakenTagsData([]);
@@ -218,15 +258,60 @@ function Chat() {
     setSelectedProfessor(""); // Reset selected professor
     setActiveCourseId(""); // Reset active course
     setSelectedCourse(null); // Reset selected course
-   
-    // Optionally add a chat message confirming major selection
-    setMessages(prev => [...prev, { sender: 'assistant', text: `Major set to ${major}. Now you can add courses taken/desired.` }]);
   };
 
-
-  // --- Tag Input Logic (Updated) ---
-  const availableCourses = useMemo(() => coursesByMajor[selectedMajor] || [], [selectedMajor]);
-
+  // --- Get available courses based on the API data ---
+  // Define availableCourses using a useMemo to derive from availableRegistrations
+  const availableCourses = useMemo(() => {
+    if (!availableRegistrations) return [];
+    
+    // Helper function to create course objects with consistent format
+    const createCourseObject = (course, index) => {
+      // Ensure code and id are strings
+      const courseCode = course.code ? String(course.code).trim() : '';
+      const courseId = course.id ? String(course.id).trim() : '';
+      const courseName = course.name ? String(course.name).trim() : '';
+      
+      // Create combined code (like "HASS 105") - notice the trim to remove extra spaces
+      const combinedCode = courseCode && courseId ? 
+        `${courseCode} ${courseId}`.trim() : 
+        courseCode || courseId || '';
+      
+      // Create a searchable string that includes all relevant information
+      const searchableString = [
+        combinedCode,
+        courseName,
+        course.professor || course.instructor || '',
+        course.section || ''
+      ].filter(Boolean).join(' ').toLowerCase();
+      
+      return {
+        id: courseId || `course-${index}`,
+        uniqueId: course.uniqueId || `${courseCode}-${courseId}-${course.section || index}`,
+        name: courseName || `${courseCode} ${courseId}`,
+        professor: course.professor || course.instructor || "Unknown",
+        code: courseCode,
+        courseId: courseId,
+        combinedCode: combinedCode,
+        searchableString: searchableString,
+        section: course.section || '',
+        days: course.days || [],
+        times: course.times || []
+      };
+    };
+    
+    // Check if the data has the expected structure
+    if (availableRegistrations.availableSections && Array.isArray(availableRegistrations.availableSections)) {
+      return availableRegistrations.availableSections.map(createCourseObject);
+    }
+    
+    // Fallback for other data structures
+    if (Array.isArray(availableRegistrations)) {
+      return availableRegistrations.map(createCourseObject);
+    }
+    
+    return []; // Return empty array if no valid data
+  }, [availableRegistrations]);
 
   const filteredTakenSuggestions = useMemo(() => {
     if (!takenInputValue) return [];
@@ -238,19 +323,29 @@ function Chat() {
     );
   }, [takenInputValue, availableCourses, takenTags, desiredTags]);
 
-
   const handleTakenInputChange = (event) => {
     const value = event.target.value;
     setTakenInputValue(value);
-    const suggestions = availableCourses.filter(course =>
-      value &&
-      course.name.toLowerCase().includes(value.toLowerCase()) &&
-      !takenTags.includes(course.name) &&
-      !desiredTags.includes(course.name)
-    );
-    setIsTakenSuggestionsOpen(value.length > 0 && suggestions.length > 0);
+    
+    // Show suggestions instantly as user types, with more flexible matching
+    if (value.length > 0) {
+      const lowerCaseValue = value.toLowerCase();
+      const suggestions = availableCourses.filter(course => {
+        // Match against course name or course code
+        const nameMatch = course.name && course.name.toLowerCase().includes(lowerCaseValue);
+        const codeMatch = course.code && course.code.toLowerCase().includes(lowerCaseValue);
+        
+        // Don't show courses already selected
+        const notSelected = !takenTags.includes(course.name) && !desiredTags.includes(course.name);
+        
+        return (nameMatch || codeMatch) && notSelected;
+      });
+      
+      setIsTakenSuggestionsOpen(suggestions.length > 0);
+    } else {
+      setIsTakenSuggestionsOpen(false);
+    }
   };
-
 
   const handleSelectTakenTag = useCallback((course) => {
     if (!takenTags.includes(course.name)) {
@@ -259,8 +354,7 @@ function Chat() {
     }
     setTakenInputValue("");
     setIsTakenSuggestionsOpen(false);
-  }, [takenTags, desiredTags]);
-
+  }, [takenTags]);
 
   const handleRemoveTakenTag = useCallback((tagName) => {
     // Find the course that is being removed
@@ -277,7 +371,6 @@ function Chat() {
     setTakenTagsData(prevData => prevData.filter(course => course.name !== tagName));
   }, [activeCourseId, takenTagsData]);
 
-
   const handleTakenKeyDown = (event) => {
     if (event.key === 'Enter' && takenInputValue && filteredTakenSuggestions.length > 0) {
       handleSelectTakenTag(filteredTakenSuggestions[0]);
@@ -287,7 +380,6 @@ function Chat() {
       handleRemoveTakenTag(takenTags[takenTags.length - 1]);
     }
   };
-
 
   const filteredDesiredSuggestions = useMemo(() => {
     if (!desiredInputValue) return [];
@@ -299,34 +391,64 @@ function Chat() {
     );
   }, [desiredInputValue, availableCourses, desiredTags, takenTags]);
 
-
   const handleDesiredInputChange = (event) => {
     const value = event.target.value;
     setDesiredInputValue(value);
-    const suggestions = availableCourses.filter(course =>
-      value &&
-      course.name.toLowerCase().includes(value.toLowerCase()) &&
-      !desiredTags.includes(course.name) &&
-      !takenTags.includes(course.name)
-    );
-    setIsDesiredSuggestionsOpen(value.length > 0 && suggestions.length > 0);
+    
+    // Show suggestions instantly as user types, with more flexible matching
+    if (value.length > 0) {
+      const lowerCaseValue = value.toLowerCase();
+      const suggestions = availableCourses.filter(course => {
+        // Match against course name or course code
+        const nameMatch = course.name && course.name.toLowerCase().includes(lowerCaseValue);
+        const codeMatch = course.code && course.code.toLowerCase().includes(lowerCaseValue);
+        
+        // Don't show courses already selected
+        const notSelected = !desiredTags.includes(course.name) && !takenTags.includes(course.name);
+        
+        return (nameMatch || codeMatch) && notSelected;
+      });
+      
+      setIsDesiredSuggestionsOpen(suggestions.length > 0);
+    } else {
+      setIsDesiredSuggestionsOpen(false);
+    }
   };
-
 
   const handleSelectDesiredTag = useCallback((course) => {
     if (!desiredTags.includes(course.name)) {
+      // Ensure professor information is available
+      const professorName = course.professor || course.instructor || "Unknown";
+      const enhancedCourse = {
+        ...course,
+        professor: professorName
+      };
+      
       setDesiredTags(prevTags => [...prevTags, course.name]);
-      setDesiredTagsData(prevData => [...prevData, course]);
+      setDesiredTagsData(prevData => [...prevData, enhancedCourse]);
      
       // Automatically select the professor for the newly added desired course
-      setSelectedProfessor(course.professor);
+      setSelectedProfessor(professorName);
       setActiveCourseId(course.id);
-      setSelectedCourse(course);
+      
+      // Console log for debugging
+      console.log("Selected desired course:", enhancedCourse);
+      
+      // Set selected course with professor info
+      setSelectedCourse(enhancedCourse);
+      
+      // Add a message to chat about the course
+      setMessages(prev => [
+        ...prev,
+        {
+          sender: 'assistant',
+          text: `Added ${course.name} to your desired courses. This course is taught by ${professorName}.`
+        }
+      ]);
     }
     setDesiredInputValue("");
     setIsDesiredSuggestionsOpen(false);
   }, [desiredTags, takenTags]);
-
 
   const handleRemoveDesiredTag = useCallback((tagName) => {
     // Find the course that is being removed
@@ -343,7 +465,6 @@ function Chat() {
     setDesiredTagsData(prevData => prevData.filter(course => course.name !== tagName));
   }, [activeCourseId, desiredTagsData]);
 
-
   const handleDesiredKeyDown = (event) => {
     if (event.key === 'Enter' && desiredInputValue && filteredDesiredSuggestions.length > 0) {
       handleSelectDesiredTag(filteredDesiredSuggestions[0]);
@@ -354,29 +475,43 @@ function Chat() {
     }
   };
 
-
   // Handle clicking on a course to view its professor
   const handleCourseClick = (course, isDesired) => {
     if (isDesired) {
-      setSelectedProfessor(course.professor);
+      // Extract professor name
+      const professorName = course.professor || course.instructor || "Unknown";
+      setSelectedProfessor(professorName);
       setActiveCourseId(course.id);
      
+      // Add console logs for debugging
+      console.log("Course clicked:", course);
+      console.log("Setting selected professor to:", professorName);
+      
       // Pass the complete course object to RateMyProfessors component
-      setSelectedCourse(course);
+      setSelectedCourse({
+        ...course,
+        professor: professorName // Ensure professor is set
+      });
+      
+      // Add a message to the chat about the selection
+      setMessages(prev => [
+        ...prev, 
+        { 
+          sender: 'assistant', 
+          text: `You've selected ${course.name} taught by ${professorName}. What would you like to know about this course?` 
+        }
+      ]);
     }
   };
 
-
-  // --- NEW Chat Functionality ---
+  // --- Chat Functionality ---
   const handleChatInputChange = (event) => {
     setChatInputValue(event.target.value);
   };
 
-
   const handleSendMessage = async () => {
     const trimmedInput = chatInputValue.trim();
     if (!trimmedInput || isAssistantTyping) return; // Don't send empty or while typing
-
 
     // Check if major is selected
     if (!selectedMajor) {
@@ -384,24 +519,18 @@ function Chat() {
         return;
     }
 
-
     // Add user message to chat
     const newUserMessage = { sender: 'user', text: trimmedInput };
     setMessages(prevMessages => [...prevMessages, newUserMessage]);
     setChatInputValue(''); // Clear input field
     setIsAssistantTyping(true); // Show typing indicator
 
-
     // Prepare data for backend
     const requestData = {
       plan: takenTags.map(tag => tag), // Assuming 'plan' corresponds to courses taken
       school: selectedMajor, // Assuming 'school' corresponds to the major
       requests: trimmedInput  // The user's query
-      // NOTE: Your backend uses studyPlans[school]. We send the major name.
-      // Ensure your backend logic (studyPlans[school]) correctly uses the major name string.
-      // Also, the backend doesn't seem to use 'desired courses' yet, but we have them in state (desiredTags).
     };
-
 
     try {
       const response = await fetch(`http://localhost:3000/schedule`, {
@@ -412,20 +541,16 @@ function Chat() {
         body: JSON.stringify(requestData),
       });
 
-
       if (!response.ok) {
         // Handle HTTP errors
         const errorData = await response.text(); // Get error text
         throw new Error(`Network response was not ok: ${response.status} ${response.statusText} - ${errorData}`);
       }
 
-
       const assistantResponse = await response.text(); // Assuming backend sends plain text
-
 
       // Add assistant response to chat
       setMessages(prevMessages => [...prevMessages, { sender: 'assistant', text: assistantResponse }]);
-
 
     } catch (error) {
       console.error("Error fetching schedule:", error);
@@ -436,7 +561,6 @@ function Chat() {
     }
   };
 
-
   // Handle Enter key press in chat input
   const handleChatKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) { // Allow Shift+Enter for new lines if needed later
@@ -445,9 +569,6 @@ function Chat() {
     }
   };
 
-
-
-
   return (
     // Apply blur if either menu is open
     <div className={`chat-page-wrapper ${isMajorMenuOpen || isChatMenuOpen ? 'menu-is-open' : ''}`}>
@@ -455,6 +576,28 @@ function Chat() {
       <div className="chat-fullscreen-container">
         <div className="chat-left-panel">
           <h1>Scheduler Area</h1>
+          {loading && <p className="loading-message">Loading courses, please wait...</p>}
+          
+          {/* Display available sections if they exist */}
+          {availableRegistrations && availableRegistrations.availableSections && availableRegistrations.availableSections.length > 0 && (
+            <div className="available-sections">
+              <h3>Available Course Sections</h3>
+              <ul className="sections-list">
+                {availableRegistrations.availableSections.map((section, index) => (
+                  <li key={index} className="section-item">
+                    {section.code} {section.id} Section {section.section}: {section.name}
+                    {section.instructor && <span className="section-instructor"> - {section.instructor}</span>}
+                    {section.days && section.days.length > 0 && (
+                      <span className="section-days"> on {section.days.join(', ')}</span>
+                    )}
+                    {section.times && section.times.length > 0 && (
+                      <span className="section-times"> at {formatTimes(section.times)}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <div className="chat-right-panel">
           {/* Courses Taken Input Section */}
@@ -468,7 +611,6 @@ function Chat() {
                     <div
                       key={course.id}
                       className="tag-chip"
-                      // Taken courses don't trigger professor lookup
                     >
                       <span>{course.name}</span>
                       <button
@@ -493,7 +635,7 @@ function Chat() {
                     onFocus={() => setIsTakenSuggestionsOpen(takenInputValue.length > 0 && filteredTakenSuggestions.length > 0)}
                     onBlur={() => setTimeout(() => setIsTakenSuggestionsOpen(false), 150)}
                     placeholder="Search courses taken..."
-                    disabled={!selectedMajor}
+                    disabled={!selectedMajor || loading}
                   />
                   {isTakenSuggestionsOpen && filteredTakenSuggestions.length > 0 && (
                     <ul className="suggestions-list">
@@ -503,7 +645,10 @@ function Chat() {
                           className="suggestion-item"
                           onMouseDown={() => handleSelectTakenTag(course)}
                         >
-                          {course.name} <span className="suggestion-professor">({course.professor})</span>
+                          {course.combinedCode && <strong>{course.combinedCode} </strong>}
+                          {!course.combinedCode && course.code && <strong>{course.code} </strong>}
+                          {course.name} 
+                          {course.professor && <span className="suggestion-professor">({course.professor})</span>}
                         </li>
                       ))}
                     </ul>
@@ -549,7 +694,7 @@ function Chat() {
                     onFocus={() => setIsDesiredSuggestionsOpen(desiredInputValue.length > 0 && filteredDesiredSuggestions.length > 0)}
                     onBlur={() => setTimeout(() => setIsDesiredSuggestionsOpen(false), 150)}
                     placeholder="Search courses desired..."
-                    disabled={!selectedMajor}
+                    disabled={!selectedMajor || loading}
                   />
                   {isDesiredSuggestionsOpen && filteredDesiredSuggestions.length > 0 && (
                     <ul className="suggestions-list">
@@ -559,7 +704,10 @@ function Chat() {
                           className="suggestion-item"
                           onMouseDown={() => handleSelectDesiredTag(course)}
                         >
-                          {course.name} <span className="suggestion-professor">({course.professor})</span>
+                          {course.combinedCode && <strong>{course.combinedCode} </strong>}
+                          {!course.combinedCode && course.code && <strong>{course.code} </strong>}
+                          {course.name} 
+                          {course.professor && <span className="suggestion-professor">({course.professor})</span>}
                         </li>
                       ))}
                     </ul>
@@ -570,16 +718,27 @@ function Chat() {
           </div>
          
           {/* RateMyProfessors Section - Pass the selected course object */}
-          <RateMyProfessors selectedCourse={selectedCourse} />
+          <div className="rate-my-professors-section">
+            <h3>Professor Information</h3>
+            {selectedCourse ? (
+              <div className="professor-info">
+                <p><strong>Selected Course:</strong> {selectedCourse.name}</p>
+                <p><strong>Professor:</strong> {selectedCourse.professor}</p>
+                <RateMyProfessors selectedCourse={selectedCourse} />
+              </div>
+            ) : (
+              <p className="no-professor-selected">
+                Click on a course in "Courses Desired" to view professor information
+              </p>
+            )}
+          </div>
         </div>
       </div>
-
 
       {/* --- Menu & Overlay Components --- */}
       <button className="select-major-button" onClick={toggleMajorMenu}>
         {selectedMajor ? `Major: ${selectedMajor}` : "Select Major"}
       </button>
-
 
       {/* Backdrop - show if *either* menu is open */}
       <div
@@ -587,13 +746,11 @@ function Chat() {
         onClick={handleBackdropClick}
       ></div>
 
-
       {/* Major Menu */}
       <div className={`major-menu ${isMajorMenuOpen ? 'open' : ''}`}>
         <button className="menu-close-button" onClick={toggleMajorMenu} aria-label="Close menu">×</button>
         <h2>Choose Your Major</h2>
         <p>Currently selected: {selectedMajor || "None"}</p>
-
 
         {/* Custom styled dropdown with improved button appearance */}
         <div className="custom-select" ref={selectContainerRef}>
@@ -620,7 +777,6 @@ function Chat() {
           </div>
         </div>
 
-
         {/* Fallback for traditional browsers (hidden but functional) */}
         <select
           className="major-select-dropdown"
@@ -637,8 +793,7 @@ function Chat() {
         </select>
       </div>
 
-
-      {/* --- Chat Menu (Now Functional) --- */}
+      {/* --- Chat Menu --- */}
       <div className={`chat-menu ${isChatMenuOpen ? 'open' : ''}`}>
          <button
            className="menu-close-button"
@@ -649,7 +804,7 @@ function Chat() {
          </button>
          <h2>Chat Assistant</h2>
          <div className="chat-interface-placeholder">
-            {/* MODIFIED: Render actual messages */}
+            {/* Render actual messages */}
             <div className="chat-messages-area">
                 {messages.map((msg, index) => (
                     <div key={`${msg.sender}-${index}`} className={`message ${msg.sender}`}>
@@ -665,7 +820,7 @@ function Chat() {
                 {/* Empty div to scroll to */}
                 <div ref={messagesEndRef} />
             </div>
-            {/* MODIFIED: Connect input and button */}
+            {/* Chat input and button */}
             <div className="chat-input-area">
                 <input
                     type="text"
@@ -686,7 +841,6 @@ function Chat() {
       </div>
       {/* --- End Chat Menu --- */}
 
-
       {/* --- Duck Button --- */}
       <button
         className="chat-duck-button"
@@ -698,6 +852,5 @@ function Chat() {
     </div> // --- End Page Wrapper ---
   );
 }
-
 
 export default Chat;
