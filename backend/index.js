@@ -3,6 +3,7 @@ import { generateSchedule, studyPlans } from "./schedule/converse.js";
 
 import 'dotenv/config';
 import available_registrations from "./available_registrations.js";
+import { Plan, SemesterSchedule } from "./schedule/schedule.js";
 
 let app = express();
 const port = 3000;
@@ -13,12 +14,6 @@ app.get('/', (req, res) => {
   res.send("Hello World!")
 });
 
-// For Rate My Professor:
-app.get('/professor/:name', (req, res) => {
-  let name = req.params.name;
-  res.send(`Names: ${name}`)
-});
-
 // For GPT:
 app.post('/schedule', async (req, res) => {
   let { plan, school, requests } = req.body ?? {};
@@ -27,6 +22,19 @@ app.post('/schedule', async (req, res) => {
 
 app.get('/available_registrations', async (req, res) => {
   res.send(available_registrations);
+});
+
+app.post('/check_schedule', async (req, res) => {
+  let schedule = new SemesterSchedule();
+  let { courses, plan } = req.body ?? {};
+  courses.forEach(c => schedule.addSection(c));
+  let registrations = available_registrations;
+  let courseCatalog = {};
+  for (const course of registrations) {
+    courseCatalog[course.code + ' ' + course.id] = course;
+  }
+
+  res.send( [ schedule.problemsWithCredits(), schedule.problemsWithOverlap() ] );
 });
 
 app.listen(port, () => {
