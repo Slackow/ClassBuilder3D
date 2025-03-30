@@ -3,8 +3,9 @@
   flex-direction: row;
   justify-content: center;
   gap: 45px; /* Increased spacing between cards */
-  margin: 50px 0;
+  margin: -10px 0;
   width: 100%;
+  scale: 0.9;
   overflow-x: auto;
   padding: 25px 15px;
   scroll-behavior: smooth;
