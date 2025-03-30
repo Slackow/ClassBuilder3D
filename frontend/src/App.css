@@ -92,23 +92,22 @@ body {
   }
 }
 
-/* Navigation bar animation */
+/* Navigation bar animation - UPDATED */
 .topnav {
   position: fixed;
   top: 0px;
   left: 0px;
-  align-self: center;
   display: flex;
   width: 100vw;
   height: 50px;
   font-family: 'PastaRegular', sans-serif;
-  justify-content: space-evenly; 
+  justify-content: center; /* Changed from space-evenly to center */
   align-items: center;
   background-color: #78787800;
   padding: 0;
 }
 
-/* Navigation links animations - staggered for each link */
+/* Navigation links animations - UPDATED for 3 links */
 .topnav a {
   color: white;
   text-decoration: none;
@@ -118,6 +117,7 @@ body {
   overflow: hidden;
   opacity: 0;
   transform: translateY(-20px);
+  margin: 0 30px; /* Added margin for better spacing */
 }
 
 .topnav a:nth-child(1) {
@@ -135,10 +135,7 @@ body {
   animation-delay: 0.4s;
 }
 
-.topnav a:nth-child(4) {
-  animation: navLinkReveal 0.5s ease-out forwards;
-  animation-delay: 0.5s;
-}
+/* Removed the fourth link animation since it's no longer needed */
 
 @keyframes navLinkReveal {
   from {
