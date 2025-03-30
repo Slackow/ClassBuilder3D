@@ -3,13 +3,13 @@ export const semesters = ["Fall 2022", "Spring 2023", "Fall 2023"]
 
 export class SemesterSchedule {
   constructor(term) {
-    this.term = term
-    this.courseSections = []
+    this.term = term;
+    this.courseSections = [];
   }
   addSection(courseSection) {
-    this.courseSections.push(courseSection)
+    this.courseSections.push(courseSection);
   }
-  validate() {
+  checkOverlap() {
     let invalid = new Set();
     for (let i = 0; i < this.courseSections.length; i++) {
       for (let j = i + 1; j < this.courseSections.length; j++) {
@@ -29,6 +29,57 @@ export class SemesterSchedule {
     console.log("Invalid!: ", invalid)
     return invalid.size === 0;
   }
+
+  checkCredits() {
+    let totalCreditCount = this.courseSections.map(c => c.credits).reduce((a, b) => a + b, 0);
+    return 12 <= totalCreditCount && totalCreditCount <= 20;
+  }
+}
+
+export class Plan {
+  /**
+   * @param alreadyTaken {PrevSemester[]}
+   * @param requests {string}
+   */
+  constructor(alreadyTaken, requests) {
+    this.alreadyTaken = alreadyTaken;
+    this.requests = requests;
+  }
+  checkPreCoreqs(schedule, courseCatalog) {
+    const takenCourses = new Set(
+      this.alreadyTaken.flatMap(sem => sem.courses)
+    );
+
+    const scheduledCourses = new Set(
+      schedule.courseSections.map(cs => cs.courseId)
+    );
+
+    return schedule.courseSections.every(cs => {
+      const course = courseCatalog[cs.courseId];
+      if (!course) return true;
+
+      const prereqsOk = course.prereqs.every(pre =>
+        takenCourses.has(pre) || (scheduledCourses.has(pre) && course.coreqs.includes(pre))
+      );
+
+      const coreqsOk = course.coreqs.every(co =>
+        takenCourses.has(co) || scheduledCourses.has(co)
+      );
+
+      if (!prereqsOk || !coreqsOk) {
+        console.log(`Course ${cs.courseId} is missing pre/coreqs`);
+      }
+
+      return prereqsOk && coreqsOk;
+    });
+  }
+}
+
+export class PrevSemester {
+  constructor(term, courses) {
+    this.term = term;
+    this.courses = courses;
+  }
 }
 
 export class CourseSection {
@@ -41,9 +92,12 @@ export class CourseSection {
 }
 
 export class Course {
-  constructor(courseId, title, description) {
+  constructor(courseId, title, description, credits, prereqs, coreqs) {
     this.courseId = courseId;
     this.title = title;
     this.description = description;
+    this.credits = credits;
+    this.prereqs = prereqs;
+    this.coreqs = coreqs;
   }
 }
