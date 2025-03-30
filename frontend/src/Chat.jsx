@@ -1,6 +1,6 @@
 // src/Chat.jsx
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import Duck3DChat from './Duck3Dchat';
 import './Chat.css';
 
@@ -26,6 +26,9 @@ function Chat() {
   // State for Major Menu
   const [isMajorMenuOpen, setIsMajorMenuOpen] = useState(false);
   const [selectedMajor, setSelectedMajor] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const selectContainerRef = useRef(null);
 
   // State for Tag Input 1 (Courses Taken)
   const [takenInputValue, setTakenInputValue] = useState("");
@@ -40,6 +43,39 @@ function Chat() {
   // --- State for Chat Menu ---
   const [isChatMenuOpen, setIsChatMenuOpen] = useState(false);
 
+  useEffect(() => {
+    // Add no-scroll class to body when menu is open
+    if (isMajorMenuOpen || isChatMenuOpen) {
+      document.body.classList.add('menu-open-no-scroll');
+      document.documentElement.classList.add('menu-open-no-scroll');
+    } else {
+      document.body.classList.remove('menu-open-no-scroll');
+      document.documentElement.classList.remove('menu-open-no-scroll');
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.classList.remove('menu-open-no-scroll');
+      document.documentElement.classList.remove('menu-open-no-scroll');
+    };
+  }, [isMajorMenuOpen, isChatMenuOpen]);
+
+  useEffect(() => {
+    // Close dropdown when clicking outside
+    function handleClickOutside(event) {
+      if (selectContainerRef.current && !selectContainerRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Remove event listener on cleanup
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   // --- Menu Logic ---
   const toggleMajorMenu = () => {
     const opening = !isMajorMenuOpen;
@@ -50,7 +86,7 @@ function Chat() {
   const toggleChatMenu = () => {
     const opening = !isChatMenuOpen;
     setIsChatMenuOpen(opening);
-     if (opening) setIsMajorMenuOpen(false); // Close major menu if opening chat menu
+    if (opening) setIsMajorMenuOpen(false); // Close major menu if opening chat menu
   };
 
   // --- NEW: Backdrop Click Handler ---
@@ -73,6 +109,34 @@ function Chat() {
     setIsDesiredSuggestionsOpen(false);
     // Keep major menu open after selection for now
     // setIsMajorMenuOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    
+    // Add animation class when opening
+    if (!isDropdownOpen && dropdownRef.current) {
+      dropdownRef.current.classList.add('animate-dropdown');
+      // Remove the class after animation completes
+      setTimeout(() => {
+        if (dropdownRef.current) {
+          dropdownRef.current.classList.remove('animate-dropdown');
+        }
+      }, 500);
+    }
+  };
+
+  const handleMajorSelect = (major) => {
+    setSelectedMajor(major);
+    setIsDropdownOpen(false);
+    
+    // Reset course inputs
+    setTakenTags([]);
+    setDesiredTags([]);
+    setTakenInputValue("");
+    setDesiredInputValue("");
+    setIsTakenSuggestionsOpen(false);
+    setIsDesiredSuggestionsOpen(false);
   };
 
   // --- Tag Input Logic (Unchanged) ---
@@ -197,7 +261,7 @@ function Chat() {
 
       {/* --- Menu & Overlay Components --- */}
       <button className="select-major-button" onClick={toggleMajorMenu}>
-        Select Major
+        {selectedMajor ? `Major: ${selectedMajor}` : "Select Major"}
       </button>
 
       {/* Backdrop - show if *either* menu is open */}
@@ -212,9 +276,45 @@ function Chat() {
         <button className="menu-close-button" onClick={toggleMajorMenu} aria-label="Close menu">×</button>
         <h2>Choose Your Major</h2>
         <p>Currently selected: {selectedMajor || "None"}</p>
-        <select className="major-select-dropdown" value={selectedMajor} onChange={handleMajorChange}>
+
+        {/* Custom styled dropdown with improved button appearance */}
+        <div className="custom-select" ref={selectContainerRef}>
+          <div 
+            className={`select-selected ${!selectedMajor ? 'placeholder' : ''} ${isDropdownOpen ? 'select-arrow-active' : ''}`} 
+            onClick={toggleDropdown}
+          >
+            {selectedMajor || "--- Select a Major ---"}
+          </div>
+          <div 
+            ref={dropdownRef}
+            className={`select-items ${isDropdownOpen ? 'select-active' : 'select-hide'}`}
+          >
+            {majorsList.map((major) => (
+              <div 
+                key={major} 
+                onClick={() => handleMajorSelect(major)}
+                className={major === selectedMajor ? 'same-as-selected' : ''}
+                style={{ textAlign: 'center', fontFamily: "'Courier New', monospace" }}
+              >
+                {major}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Fallback for traditional browsers (hidden but functional) */}
+        <select 
+          className="major-select-dropdown" 
+          value={selectedMajor} 
+          onChange={handleMajorChange}
+          style={{ display: 'none' }}
+        >
           <option value="" disabled>--- Select a Major ---</option>
-          {majorsList.map((major) => (<option key={major} value={major}>{major}</option>))}
+          {majorsList.map((major) => (
+            <option key={major} value={major}>
+              {major}
+            </option>
+          ))}
         </select>
       </div>
 
