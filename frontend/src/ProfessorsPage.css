@@ -1,0 +1,109 @@
+/* src/ProfessorsPage.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  .professors-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999; /* Ensure it's above everything else */
+  }
+  
+  .professors-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #292930;
+    border-bottom: 1px solid #333;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+  }
+  
+  .back-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    color: #e0e0e0;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-right: 25px;
+    font-size: 0.9rem;
+  }
+  
+  .back-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(-2px);
+  }
+  
+  .back-arrow {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+  
+  .professors-header h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .professors-iframe-container {
+    flex: 1;
+    width: 100%;
+    height: calc(100vh - 57px); /* Subtract header height */
+    overflow: hidden;
+  }
+  
+  .professors-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+  }
+  
+  /* Hide RateMyProfessors Logo from iframe content */
+  img[alt="RateMyProfessors Logo"] {
+    display: none !important;
+  }
+  
+  /* For responsive design */
+  @media (max-width: 768px) {
+    .professors-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 15px;
+    }
+    
+    .back-button {
+      margin-right: 0;
+      margin-bottom: 10px;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .professors-header h1 {
+      font-size: 1rem;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .professors-iframe-container {
+      height: calc(100vh - 88px); /* Adjust for taller header on mobile */
+    }
+  }

@@ -3,6 +3,7 @@ import Duck3D from './Duck3D';
 import Contacts from './Contacts';
 import About from './About';
 import Chat from './Chat'; // <-- 1. Import Chat component
+import ProfessorsPage from './ProfessorsPage'; // <-- Import the new ProfessorsPage component
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Cursor from './cursor';
 import './App.css';
@@ -62,15 +63,22 @@ function App() {
     <Router>
       <div>
         <Cursor />
-        <Navigation />
+        {/* Only show Navigation on routes where it should appear */}
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contacts />} />
-          <Route path="/about" element={<About />} />
-          {/* 2. Add the Route for the Chat component */}
-          <Route path="/chat" element={<Chat />} /> 
-          {/* You might want a route for /news too */}
-          {/* <Route path="/news" element={<SomeDucksComponent />} /> */}
+          <Route path="/professors" element={<ProfessorsPage />} />
+          <Route path="*" element={
+            <>
+              <Navigation />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/contact" element={<Contacts />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/chat" element={<Chat />} />
+                {/* You might want a route for /news too */}
+                {/* <Route path="/news" element={<SomeDucksComponent />} /> */}
+              </Routes>
+            </>
+          } />
         </Routes>
       </div>
     </Router>

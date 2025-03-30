@@ -1,9 +1,11 @@
 /* src/Chat.css */
 
+
 body.menu-open-no-scroll,
 html.menu-open-no-scroll {
   overflow: hidden;
 }
+
 
 .chat-page-wrapper {
   width: 100%;
@@ -11,27 +13,29 @@ html.menu-open-no-scroll {
   position: relative;
 }
 
+
 .chat-fullscreen-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  /* Z-index higher than topnav */
-  z-index: 1100;
+  top: 0;        
+  left: 0;        
+  width: 100vw;  
+  height: 100vh;  
+  z-index: 100;
   background-color: #1f1f1f;
-  color: #e0e0e0;
-  box-sizing: border-box;
+  color: #e0e0e0;            
+  box-sizing: border-box;  
   opacity: 0;
   animation: chatContainerFadeIn 0.5s ease-out forwards;
   transition: filter 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
 }
 
+
 /* Apply blur when *either* menu is open */
 .chat-page-wrapper.menu-is-open .chat-fullscreen-container {
   filter: blur(6px) brightness(0.8);
 }
+
 
 @keyframes chatContainerFadeIn {
   to {
@@ -39,26 +43,34 @@ html.menu-open-no-scroll {
   }
 }
 
+
 /* --- Left and Right Panels --- */
 .chat-left-panel {
-  flex: 1;
-  padding: 25px;
+  flex: 0.35; /* Reduce from 1 to 0.35 for narrower left panel */
+  padding: 20px;
   box-sizing: border-box;
   background-color: rgba(0,0,0,0.1);
   height: 100vh;
   overflow-y: auto;
   border-right: 1px solid #333;
+  min-width: 300px; /* Ensure it doesn't get too small */
 }
+
+
 .chat-left-panel h1 {
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
   color: #ffffff;
   letter-spacing: 0.5px;
+  font-size: 1.6rem;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
+
 .chat-right-panel {
-  flex: 1;
+  flex: 0.65; /* Increase from 1 to 0.65 for wider right panel */
   padding: 25px;
   padding-top: 70px;
   box-sizing: border-box;
@@ -70,13 +82,7 @@ html.menu-open-no-scroll {
   gap: 20px;
 }
 
-/* --- Styles for Tag Input Component --- */
-.tag-input-section {
-  /* Let gap handle spacing */
-}
-.section-spacer {
- /* margin-top: 30px; */
-}
+
 .tag-input-section h3 {
   color: #ccc;
   font-weight: 500;
@@ -84,6 +90,8 @@ html.menu-open-no-scroll {
   border-bottom: 1px solid #444;
   padding-bottom: 8px;
 }
+
+
 .select-major-prompt {
   color: #888;
   font-style: italic;
@@ -93,10 +101,14 @@ html.menu-open-no-scroll {
   background-color: rgba(255, 255, 255, 0.03);
   border-radius: 6px;
 }
+
+
 .tag-input-container {
   position: relative;
   width: 100%;
 }
+
+
 .selected-tags-area {
   display: flex;
   flex-wrap: wrap;
@@ -105,6 +117,8 @@ html.menu-open-no-scroll {
   padding: 10px 0;
   min-height: 30px;
 }
+
+
 .tag-chip {
   display: inline-flex;
   align-items: center;
@@ -114,44 +128,327 @@ html.menu-open-no-scroll {
   border-radius: 15px;
   font-size: 0.85rem;
   white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
 }
+
+
+/* Additional CSS for selected course tags */
+
+
+/* Add active state for selected courses */
+.tag-chip.active {
+  background-color: rgba(74, 144, 226, 0.2);
+  border: 1px solid rgba(74, 144, 226, 0.4);
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
+  color: #fff;
+  position: relative;
+}
+
+
+.tag-chip.active span {
+  font-weight: 500;
+}
+
+
+/* Add a subtle glow effect to active tags */
+.tag-chip.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(74, 144, 226, 0.15) 0%, rgba(74, 144, 226, 0) 100%);
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+
+/* Add a subtle indicator at the bottom of active tags */
+.tag-chip.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background-color: #4a90e2;
+  border-radius: 2px;
+}
+
+
+/* Tooltip to indicate that the professor is being viewed */
+.tag-chip.active:hover::after {
+  content: "Viewing this professor";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(74, 144, 226, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+}
+
+
+/* Enhanced tag-chip hover effect for better affordance */
+.tag-chip:hover {
+  background-color: #4a4a52;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+
+/* Remove button hover state improvements */
+.tag-chip .remove-tag-button {
+  z-index: 2;
+  position: relative;
+}
+
+
+/* Make the tooltip more responsive */
+@media (max-width: 768px) {
+  .tag-chip.active:hover::after,
+  .tag-chip:hover::after {
+    font-size: 0.6rem;
+    padding: 3px 6px;
+    bottom: -25px;
+  }
+}
+
+
+.tag-chip:hover::after {
+  content: "View Professor";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+}
+
+
+.tag-chip::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(74, 144, 226, 0) 0%, rgba(74, 144, 226, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+
+.tag-chip:hover::before {
+  opacity: 1;
+}
+
+
 .tag-chip span {
   margin-right: 8px;
 }
+
+
 .remove-tag-button {
   background: none; border: none; color: #aaa; cursor: pointer;
   font-size: 1.1rem; line-height: 1; padding: 0 0 0 2px;
   margin-left: auto; transition: color 0.2s ease;
 }
+
+
 .remove-tag-button:hover { color: #ff6b6b; }
+
+
 .input-wrapper { position: relative; }
+
+
 .tag-input-field {
   width: 100%; padding: 12px 15px; border: 1px solid #555;
   border-radius: 6px; background-color: #2a2a2e;
   color: #e0e0e0; font-size: 0.95rem; box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+
 .tag-input-field::placeholder { color: #777; }
+
+
 .tag-input-field:focus {
   outline: none; border-color: #777;
   box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.15);
 }
+
+
 .tag-input-field:disabled { background-color: #333; cursor: not-allowed; opacity: 0.6; }
+
+
+/* --- CSS for Desired Courses Only --- */
+
+
+/* First, reset the cursor behavior for all tag chips */
+.tag-input-section:first-child .tag-chip {
+  cursor: default; /* Remove pointer cursor from "Courses Taken" section */
+}
+
+
+/* Make courses in "Courses Taken" section non-interactive */
+.tag-input-section:first-child .tag-chip:hover {
+  background-color: #3a3a3e; /* Keep original background color */
+  transform: none; /* No raise effect */
+  box-shadow: none; /* No shadow effect */
+}
+
+
+/* Remove the tooltip from "Courses Taken" section */
+.tag-input-section:first-child .tag-chip:hover::after {
+  content: none; /* Hide the tooltip */
+}
+
+
+/* Remove any glow effect from "Courses Taken" section */
+.tag-input-section:first-child .tag-chip::before {
+  opacity: 0 !important; /* Always hide glow effect */
+}
+
+
+/* Remove the active state visual from "Courses Taken" section */
+.tag-input-section:first-child .tag-chip.active::after {
+  content: none; /* Hide the active indicator */
+}
+
+
+/* Hide any active effects in "Courses Taken" section */
+.tag-input-section:first-child .tag-chip.active {
+  background-color: #3a3a3e;
+  border: none;
+  box-shadow: none;
+  color: #e0e0e0;
+}
+
+
+/* Keep the original default styles intact but add specific behavior for "Courses Desired" */
+.tag-input-section:nth-child(2) .tag-chip {
+  cursor: pointer; /* Make sure the cursor is a pointer for desired courses */
+}
+
+
+/* Add a visual hint for the "Courses Desired" section */
+.tag-input-section:nth-child(2) .selected-tags-area {
+  position: relative;
+}
+
+
+.tag-input-section:nth-child(2) .selected-tags-area::before {
+  content: "Click on a course to view its professor";
+  position: absolute;
+  top: -30px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+
+.tag-input-section:nth-child(2) .selected-tags-area:hover::before {
+  opacity: 1;
+}
+
+
+/* Enhance the active state for "Courses Desired" section */
+.tag-input-section:nth-child(2) .tag-chip.active {
+  background-color: rgba(74, 144, 226, 0.2);
+  border: 1px solid rgba(74, 144, 226, 0.4);
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.2);
+  color: #fff;
+}
+
+
+.tag-input-section:nth-child(2) .tag-chip.active span {
+  font-weight: 500;
+}
+
+
+/* Adjust active tag tooltip for "Courses Desired" section */
+.tag-input-section:nth-child(2) .tag-chip.active:hover::after {
+  content: "Viewing this professor";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(74, 144, 226, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tag-input-section:nth-child(2) .tag-chip.active:hover::after,
+  .tag-input-section:nth-child(2) .tag-chip:hover::after {
+    font-size: 0.6rem;
+    padding: 3px 6px;
+    bottom: -25px;
+  }
+ 
+  .tag-input-section:nth-child(2) .selected-tags-area::before {
+    font-size: 0.65rem;
+    padding: 4px 8px;
+  }
+}
+
+
 .suggestions-list {
   list-style: none; padding: 0; margin: 5px 0 0 0;
   position: absolute; left: 0; right: 0; background-color: #2f2f33;
   border: 1px solid #555; border-top: none;
   border-radius: 0 0 6px 6px; max-height: 200px;
-  overflow-y: auto;
-  /* Z-index relative to base, above menus */
-  z-index: 1140;
+  overflow-y: auto; z-index: 130;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
+
+
 .suggestion-item {
   padding: 10px 15px; cursor: pointer; color: #ccc;
   font-size: 0.9rem; transition: background-color 0.15s ease;
 }
+
+
 .suggestion-item:hover { background-color: #4a4a50; color: #fff; }
+
+
+.suggestion-professor {
+  font-size: 0.85em;
+  color: #aaa;
+  font-style: italic;
+}
 
 
 /* --- Menu Styles --- */
@@ -170,13 +467,13 @@ html.menu-open-no-scroll {
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.5px;
-  /* Z-index relative to base */
-  z-index: 1125;
+  z-index: 119;
   transition: all 0.25s ease-out;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
   text-align: center;
   min-width: 160px;
 }
+
 
 .select-major-button:hover {
   background-color: rgba(55, 55, 55, 0.9);
@@ -185,19 +482,21 @@ html.menu-open-no-scroll {
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
 }
 
+
 .menu-backdrop-blur {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  /* Z-index relative to base */
-  z-index: 1110;
+  -webkit-backdrop-filter: blur(5px); z-index: 115;
   opacity: 0; visibility: hidden;
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0.4s;
 }
+
+
 .menu-backdrop-blur.open {
   opacity: 1; visibility: visible;
   transition: opacity 0.4s ease-in-out, visibility 0s linear 0s;
 }
+
 
 .major-menu {
   position: fixed;
@@ -212,8 +511,7 @@ html.menu-open-no-scroll {
   padding: 35px 30px;
   padding-top: 65px;
   box-sizing: border-box;
-  /* Z-index relative to base */
-  z-index: 1130;
+  z-index: 120;
   transform: translateX(100%);
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -221,7 +519,9 @@ html.menu-open-no-scroll {
   gap: 30px;
 }
 
+
 .major-menu.open { transform: translateX(0); }
+
 
 .major-menu h2 {
   margin-top: 0;
@@ -234,6 +534,7 @@ html.menu-open-no-scroll {
   text-align: center;
 }
 
+
 .major-menu p {
   font-size: 0.9rem;
   color: #a0a0a0;
@@ -241,6 +542,7 @@ html.menu-open-no-scroll {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   text-align: center;
 }
+
 
 .menu-close-button {
   position: absolute;
@@ -254,9 +556,10 @@ html.menu-open-no-scroll {
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
-  z-index: 1; /* Stays 1 relative to menu */
+  z-index: 1;
   transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
 }
+
 
 .menu-close-button:hover {
   color: #ffffff;
@@ -264,10 +567,12 @@ html.menu-open-no-scroll {
   transform: rotate(90deg);
 }
 
+
 /* --- Enhanced Dropdown Styling --- */
 .major-select-dropdown {
   display: none; /* Hidden in favor of custom dropdown */
 }
+
 
 /* Custom dropdown styles */
 .custom-select {
@@ -275,6 +580,7 @@ html.menu-open-no-scroll {
   width: fit-content;
   margin: 0 auto; /* Center the dropdown in the menu */
 }
+
 
 .select-selected {
   min-width: 220px;
@@ -294,6 +600,7 @@ html.menu-open-no-scroll {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+
 .select-selected:hover {
   border-color: #777;
   background-color: #353539;
@@ -301,10 +608,12 @@ html.menu-open-no-scroll {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+
 .select-selected:active {
   transform: translateY(1px);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
+
 
 .select-selected.select-arrow-active {
   border-color: #777;
@@ -312,6 +621,7 @@ html.menu-open-no-scroll {
   border-radius: 8px 8px 0 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
 }
+
 
 .select-selected:after {
   content: '';
@@ -326,10 +636,12 @@ html.menu-open-no-scroll {
   top: calc(50% - 6px);
 }
 
+
 .select-selected.select-arrow-active:after {
   transform: rotate(-135deg);
   top: calc(50% - 3px);
 }
+
 
 .select-items {
   position: absolute;
@@ -352,9 +664,11 @@ html.menu-open-no-scroll {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+
 .select-hide {
   display: none;
 }
+
 
 .select-items div {
   padding: 16px 20px;
@@ -367,14 +681,17 @@ html.menu-open-no-scroll {
   text-align: center;
 }
 
+
 .select-items div:hover {
   transform: translateY(-1px);
 }
+
 
 .select-items div:hover, .same-as-selected {
   background-color: rgba(100, 150, 255, 0.2);
   color: #ffffff;
 }
+
 
 .select-items.select-active {
   max-height: 300px;
@@ -385,14 +702,17 @@ html.menu-open-no-scroll {
   width: 100%;
 }
 
+
 .select-items div:not(:last-child) {
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 
 /* Placeholder styling */
 .select-selected.placeholder {
   color: #888;
 }
+
 
 /* Animation for dropdown opening */
 @keyframes dropdownOpen {
@@ -415,10 +735,12 @@ html.menu-open-no-scroll {
   }
 }
 
+
 /* Add a slight bounce effect to the animation */
 .animate-dropdown {
   animation: dropdownOpen 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
+
 
 /* --- Chat Menu --- */
 .chat-menu {
@@ -434,17 +756,18 @@ html.menu-open-no-scroll {
   padding: 35px 30px;
   padding-top: 65px;
   box-sizing: border-box;
-  /* Z-index relative to base */
-  z-index: 1130;
+  z-index: 120;
   transform: translateX(100%);
   transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
 }
 
+
 .chat-menu.open {
   transform: translateX(0);
 }
+
 
 .chat-menu h2 {
   margin-top: 0;
@@ -455,7 +778,8 @@ html.menu-open-no-scroll {
   text-align: center;
 }
 
-/* --- Placeholder Chat Interface Styles --- */
+
+/* --- Chat Interface Styles --- */
 .chat-interface-placeholder {
   flex-grow: 1;
   display: flex;
@@ -463,11 +787,10 @@ html.menu-open-no-scroll {
   overflow: hidden;
 }
 
+
 .chat-messages-area {
   flex-grow: 1;
   overflow-y: auto;
-  /* Removed dashed border */
-  /* border: 1px dashed #444; */
   border-radius: 6px;
   margin-bottom: 15px;
   padding: 10px;
@@ -477,12 +800,14 @@ html.menu-open-no-scroll {
   gap: 10px; /* Spacing between messages */
 }
 
+
 .chat-input-area {
   display: flex;
   gap: 10px;
   border-top: 1px solid #333;
   padding-top: 15px;
 }
+
 
 .chat-input-area input[type="text"] {
   flex-grow: 1;
@@ -493,16 +818,21 @@ html.menu-open-no-scroll {
   color: #e0e0e0;
   font-size: 0.9rem;
 }
+
+
 .chat-input-area input[type="text"]:focus {
    outline: none; border-color: #777;
    box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.15);
 }
+
+
 /* Style for disabled chat input */
 .chat-input-area input[type="text"]:disabled {
   background-color: #333;
   cursor: not-allowed;
   opacity: 0.6;
 }
+
 
 .chat-input-area button {
   padding: 10px 18px;
@@ -515,9 +845,11 @@ html.menu-open-no-scroll {
   transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
+
 .chat-input-area button:hover:not(:disabled) {
   background-color: #5a5a60;
 }
+
 
 /* Style for disabled chat button */
 .chat-input-area button:disabled {
@@ -527,48 +859,7 @@ html.menu-open-no-scroll {
 }
 
 
-/* --- Duck Button --- */
-.chat-duck-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 60px;
-  height: 60px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  /* Z-index relative to base */
-  z-index: 1120;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Don't show hover effect if the chat menu is open */
-.chat-page-wrapper.menu-is-open .chat-duck-button:hover {
-  transform: scale(1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-/* Apply hover only when menu is closed */
-.chat-page-wrapper:not(.menu-is-open) .chat-duck-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
-}
-
-.chat-duck-button canvas {
-   width: 100% !important;
-   height: 100% !important;
-   display: block;
-}
-
-
 /* --- NEW Chat Message Styles --- */
-
 .message {
   padding: 10px 15px;
   border-radius: 18px;
@@ -576,11 +867,13 @@ html.menu-open-no-scroll {
   word-wrap: break-word; /* Wrap long words */
 }
 
+
 .message p {
   margin: 0;
   line-height: 1.4;
   font-size: 0.95rem;
 }
+
 
 /* User message styling */
 .message.user {
@@ -591,6 +884,7 @@ html.menu-open-no-scroll {
   margin-left: auto; /* Push to right */
 }
 
+
 /* Assistant message styling */
 .message.assistant {
   background-color: #3a3a3e; /* Example: Dark grey */
@@ -600,8 +894,543 @@ html.menu-open-no-scroll {
   margin-right: auto; /* Push to left */
 }
 
+
 /* Typing indicator styling */
 .message.typing-indicator p {
   color: #888;
   font-style: italic;
+}
+
+
+/* --- Duck Button --- */
+.chat-duck-button {
+  position: fixed;      
+  bottom: 30px;        
+  right: 30px;          
+  width: 60px;          
+  height: 60px;          
+  background-color: #ffffff;
+  border-radius: 50%;    
+  border: none;          
+  padding: 0;          
+  cursor: pointer;      
+  display: flex;        
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;      
+  z-index: 118;          
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Don't show hover effect if the chat menu is open */
+.chat-page-wrapper.menu-is-open .chat-duck-button:hover {
+  transform: scale(1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Apply hover only when menu is closed */
+.chat-page-wrapper:not(.menu-is-open) .chat-duck-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+}
+
+
+.chat-duck-button canvas {
+  width: 100% !important;  
+  height: 100% !important;
+  display: block;        
+}
+
+
+/* --- RateMyProfessors Embedded Section --- */
+.rmp-section {
+  margin-top: 20px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+
+.rmp-section h3 {
+  color: #ccc;
+  font-weight: 500;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 8px;
+}
+
+
+.rmp-container {
+  background-color: rgba(30, 30, 30, 0.7);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #3a3a3e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+.rmp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: rgba(35, 35, 35, 0.95);
+  border-bottom: 1px solid #3a3a3e;
+}
+
+
+.rmp-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.rmp-title h4 {
+  margin: 0;
+  color: #e0e0e0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+
+.rmp-logo {
+  height: 22px;
+  width: auto;
+  opacity: 0.9;
+  display: none; /* Hide logo as requested */
+}
+
+
+.rmp-toggle-button {
+  background-color: rgba(50, 50, 50, 0.9);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+
+.rmp-toggle-button:hover {
+  background-color: rgba(70, 70, 70, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.rmp-toggle-button:active {
+  transform: translateY(1px);
+}
+
+
+.rmp-content {
+  height: 500px;
+  position: relative;
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+}
+
+
+.rmp-content.collapsed {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+
+.rmp-iframe-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+}
+
+
+.rmp-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff;
+}
+
+
+.rmp-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(25, 25, 25, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+
+.rmp-spinner {
+  border: 3px solid rgba(100, 100, 100, 0.2);
+  border-radius: 50%;
+  border-top: 3px solid #00b6fd;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 15px;
+  animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+.rmp-info {
+  padding: 10px 16px;
+  background-color: rgba(28, 28, 28, 0.8);
+  font-size: 0.8rem;
+  color: #aaa;
+  border-top: 1px solid #3a3a3e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.rmp-info a {
+  color: #00b6fd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+
+
+.rmp-info a:hover {
+  color: #3fcaff;
+  text-decoration: underline;
+}
+
+
+/* Style for RateMyProfessors component container */
+.rate-my-professors-container {
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #222;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* RateMyProfessors Modal Styles */
+.rmp-link-container {
+  margin-top: 30px;
+  padding-bottom: 20px;
+}
+
+
+.rmp-preview-card {
+  background: linear-gradient(135deg, #292930 0%, #1e1e24 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+
+.rmp-preview-card:hover {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+
+.rmp-card-header {
+  background: linear-gradient(90deg, #3a3a40 0%, #2a2a30 100%);
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.rmp-card-header h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: 600;
+}
+
+
+.rmp-subtitle {
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+
+.rmp-card-content {
+  padding: 20px;
+}
+
+
+.rmp-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+
+.rmp-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 10px;
+}
+
+
+.rmp-stat-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 5px;
+}
+
+
+.rmp-stat-label {
+  font-size: 0.8rem;
+  color: #bbb;
+}
+
+
+.rmp-description {
+  color: #ddd;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+
+.rmp-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(74, 144, 226, 0.1);
+  padding: 12px 20px;
+  border-radius: 6px;
+  border-left: 3px solid #4a90e2;
+}
+
+
+.rmp-cta-text {
+  font-weight: 500;
+  color: #4a90e2;
+}
+
+
+.rmp-arrow {
+  font-size: 1.2rem;
+  color: #4a90e2;
+  transition: transform 0.2s ease;
+}
+
+
+.rmp-preview-card:hover .rmp-arrow {
+  transform: translateX(4px);
+}
+
+
+.rmp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+.rmp-modal-content {
+  width: 95%;
+  height: 95%;
+  background-color: #1f1f1f;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  animation: scaleIn 0.3s ease-out;
+}
+
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
+}
+
+
+.rmp-modal-header {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #292930;
+  border-bottom: 1px solid #333;
+  position: relative;
+}
+
+
+.rmp-back-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-right: 15px;
+  font-size: 0.9rem;
+}
+
+
+.rmp-back-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+
+.rmp-back-arrow {
+  margin-right: 8px;
+}
+
+
+.rmp-modal-header h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 1.2rem;
+  color: #ffffff;
+  font-weight: 600;
+  text-align: center;
+}
+
+
+.rmp-close-button {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 1.2rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+
+.rmp-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+
+.rmp-iframe-container {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+.rmp-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: #fff;
+}
+
+
+/* Hide RateMyProfessors Logo from iframe content */
+img[alt="RateMyProfessors Logo"] {
+  display: none !important;
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1200px) {
+  .chat-fullscreen-container {
+    flex-direction: column;
+  }
+ 
+  .chat-left-panel, .chat-right-panel {
+    flex: none;
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+  }
+ 
+  .chat-left-panel {
+    border-right: none;
+    border-bottom: 1px solid #333;
+  }
+ 
+  .rmp-modal-header {
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+ 
+  .rmp-back-button {
+    order: 1;
+    margin-right: 10px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+ 
+  .rmp-close-button {
+    order: 2;
+  }
+ 
+  .rmp-modal-header h2 {
+    order: 3;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 1rem;
+  }
+ 
+  .rmp-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+ 
+  .rmp-stat {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
 }
